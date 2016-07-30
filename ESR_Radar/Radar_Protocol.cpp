@@ -186,9 +186,16 @@ void CRadar_Protocol::FilterObject()
 		if(m_realObject.object[i].object_possibility)
 		{
 			m_realObject.object[i].object_possibility = false;
-			m_realObject.object[i].possibility_counter++;
-			if(m_realObject.object[i].possibility_counter>3)
+			if(m_realObject.object[i].possibility_counter<4)
+			{
+				if(m_realObject.object[i].dbXCoordinateVelocity>10)
+					m_realObject.object[i].possibility_counter++;
+			}
+			else
+			{
 				m_realObject.object[i].object_ok = true;
+			}
+
 			if(m_realObject.object[i].object_ok)
 			{				
 				log_Controller.WriteObjectInfo(m_realObject.object[i]);

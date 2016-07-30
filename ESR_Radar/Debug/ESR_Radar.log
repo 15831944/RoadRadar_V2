@@ -1,17 +1,26 @@
-﻿빌드 시작: 2016-07-29 오후 5:21:15
-     1>2 노드의 "C:\Users\Administrator\Desktop\version_10\T32_Radar\ESR_Radar\ESR_Radar.vcxproj" 프로젝트(Build 대상)입니다.
+﻿빌드 시작: 2016-07-30 오후 7:17:45
+     1>2 노드의 "C:\Users\Son\Desktop\T32_Radar\ESR_Radar\ESR_Radar.vcxproj" 프로젝트(Build 대상)입니다.
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /IC:\opencv2412\build\include /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D _UNICODE /D UNICODE /D _AFXDLL /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Draw_Controller.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /IC:\opencv2412\build\include /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D _UNICODE /D UNICODE /D _AFXDLL /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Draw_Controller.cpp Radar_Protocol.cpp
+         Radar_Protocol.cpp
+     1>c:\opencv2412\build\include\opencv2\flann\dist.h : warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+     1>c:\opencv2412\build\include\opencv2\flann\logger.h(66): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(218) : 'fopen' 선언을 참조하십시오.
+     1>c:\users\son\desktop\t32_radar\esr_radar\radar_protocol.cpp(64): warning C4018: '<' : signed 또는 unsigned가 일치하지 않습니다.
+     1>c:\users\son\desktop\t32_radar\esr_radar\radar_protocol.cpp(74): warning C4018: '<=' : signed 또는 unsigned가 일치하지 않습니다.
+         코드를 생성하고 있습니다...
+         컴파일하고 있습니다...
          Draw_Controller.cpp
      1>c:\opencv2412\build\include\opencv2\flann\dist.h : warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
      1>c:\opencv2412\build\include\opencv2\flann\logger.h(66): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(218) : 'fopen' 선언을 참조하십시오.
-     1>c:\users\administrator\desktop\version_10\t32_radar\esr_radar\draw_controller.cpp(39): warning C4244: '초기화 중' : 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-     1>c:\users\administrator\desktop\version_10\t32_radar\esr_radar\draw_controller.cpp(40): warning C4244: '초기화 중' : 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-     1>c:\users\administrator\desktop\version_10\t32_radar\esr_radar\draw_controller.cpp(35): warning C4101: 'id' :참조되지 않은 지역 변수입니다.
-     1>c:\users\administrator\desktop\version_10\t32_radar\esr_radar\draw_controller.cpp(36): warning C4101: 'cv_font' :참조되지 않은 지역 변수입니다.
+     1>c:\users\son\desktop\t32_radar\esr_radar\draw_controller.cpp(39): warning C4244: '초기화 중' : 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\son\desktop\t32_radar\esr_radar\draw_controller.cpp(40): warning C4244: '초기화 중' : 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\son\desktop\t32_radar\esr_radar\draw_controller.cpp(35): warning C4101: 'id' :참조되지 않은 지역 변수입니다.
+     1>c:\users\son\desktop\t32_radar\esr_radar\draw_controller.cpp(36): warning C4101: 'cv_font' :참조되지 않은 지역 변수입니다.
+         코드를 생성하고 있습니다...
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Administrator\Desktop\version_10\T32_Radar\Debug\ESR_Radar.exe" /INCREMENTAL /NOLOGO /LIBPATH:C:\opencv2412\build\x86\vc11\lib opencv_contrib2412d.lib opencv_stitching2412d.lib opencv_videostab2412d.lib opencv_superres2412d.lib opencv_nonfree2412d.lib opencv_gpu2412d.lib opencv_ocl2412d.lib opencv_legacy2412d.lib opencv_calib3d2412d.lib opencv_features2d2412d.lib opencv_objdetect2412d.lib opencv_highgui2412d.lib opencv_video2412d.lib opencv_photo2412d.lib opencv_imgproc2412d.lib opencv_ml2412d.lib opencv_flann2412d.lib opencv_core2412d.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /manifestinput:"C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\Include\Manifest\dpiaware.manifest" /DEBUG /PDB:"C:\Users\Administrator\Desktop\version_10\T32_Radar\Debug\ESR_Radar.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /ENTRY:"wWinMainCRTStartup" /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Administrator\Desktop\version_10\T32_Radar\Debug\ESR_Radar.lib" /MACHINE:X86 Debug\ESR_Radar.res
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Son\Desktop\T32_Radar\Debug\ESR_Radar.exe" /INCREMENTAL /NOLOGO /LIBPATH:C:\opencv2412\build\x86\vc11\lib opencv_contrib2412d.lib opencv_stitching2412d.lib opencv_videostab2412d.lib opencv_superres2412d.lib opencv_nonfree2412d.lib opencv_gpu2412d.lib opencv_ocl2412d.lib opencv_legacy2412d.lib opencv_calib3d2412d.lib opencv_features2d2412d.lib opencv_objdetect2412d.lib opencv_highgui2412d.lib opencv_video2412d.lib opencv_photo2412d.lib opencv_imgproc2412d.lib opencv_ml2412d.lib opencv_flann2412d.lib opencv_core2412d.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /manifestinput:"C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\Include\Manifest\dpiaware.manifest" /DEBUG /PDB:"C:\Users\Son\Desktop\T32_Radar\Debug\ESR_Radar.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /ENTRY:"wWinMainCRTStartup" /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Son\Desktop\T32_Radar\Debug\ESR_Radar.lib" /MACHINE:X86 Debug\ESR_Radar.res
          Debug\Draw_Controller.obj
          Debug\ESR_Radar.obj
          Debug\ESR_RadarDlg.obj
@@ -19,9 +28,9 @@
          Debug\Radar_Protocol.obj
          Debug\stdafx.obj
          Debug\TCP_Connect.obj
-         ESR_Radar.vcxproj -> C:\Users\Administrator\Desktop\version_10\T32_Radar\Debug\ESR_Radar.exe
-     1>"C:\Users\Administrator\Desktop\version_10\T32_Radar\ESR_Radar\ESR_Radar.vcxproj" 프로젝트를 빌드했습니다(Build 대상).
+         ESR_Radar.vcxproj -> C:\Users\Son\Desktop\T32_Radar\Debug\ESR_Radar.exe
+     1>"C:\Users\Son\Desktop\T32_Radar\ESR_Radar\ESR_Radar.vcxproj" 프로젝트를 빌드했습니다(Build 대상).
 
 빌드했습니다.
 
-경과 시간: 00:00:06.28
+경과 시간: 00:00:09.95
