@@ -6,7 +6,10 @@
 #include "Draw_Controller.h"
 
 
-
+#define critical_X 2.5
+#define critical_Y 2.5
+#define critical_Counter 7
+#define critical_CoordinateVelocity 0
 
 void CRadar_Protocol::RadarDataReceive(SOCKET hSocket, HANDLE hMutex)
 {
@@ -186,22 +189,54 @@ void CRadar_Protocol::FilterObject()
 		if(m_realObject.object[i].object_possibility)
 		{
 			m_realObject.object[i].object_possibility = false;
-			if(m_realObject.object[i].possibility_counter<4)
+
+			if(m_realObject.object[i].dbXCoordinateVelocity==critical_CoordinateVelocity)
 			{
-				if(m_realObject.object[i].dbXCoordinateVelocity>10)
-					m_realObject.object[i].possibility_counter++;
-			}
+				if(m_realObject.object[i].object_ok == true)
+				{
+					//»ç°í?
+				}
+				else
+				{
+					InitObject(i);
+				}
+			}			
 			else
 			{
-				m_realObject.object[i].object_ok = true;
+				m_realObject.object[i].possibility_counter++;
+				
+				if(m_realObject.object[i].possibility_counter>critical_Counter)
+					m_realObject.object[i].object_ok = true;
+				
+				if(m_realObject.object[i].object_ok = true)
+				{
+					pDrawController.DrawObjectInfo(m_realObject.object[i]);
+					/*
+					for(int j = 0; j<=i;j++)
+					{
+						if(i==j)
+						{
+							log_Controller.WriteObjectInfo(m_realObject.object[i]);
+							pDrawController.DrawObjectInfo(m_realObject.object[i]);
+						}
+						else if((m_realObject.object[i].dbXCoordinate-m_realObject.object[j].dbXCoordinate)<critical_X)
+						{
+							if((m_realObject.object[i].dbXCoordinate-m_realObject.object[j].dbXCoordinate)>(-1*critical_X))
+							{
+								if((m_realObject.object[i].dbYCoordinate-m_realObject.object[j].dbYCoordinate)<critical_Y)
+								{
+									if((m_realObject.object[i].dbYCoordinate-m_realObject.object[j].dbYCoordinate)>(-1*critical_Y))
+									{
+										InitObject(i);
+										break;
+									}
+								}
+							}
+						}
+					}*/
+				}
 			}
-
-			if(m_realObject.object[i].object_ok)
-			{				
-				log_Controller.WriteObjectInfo(m_realObject.object[i]);
-				pDrawController.DrawObjectInfo(m_realObject.object[i]);
-			}
-		}
+		}					
 		else
 		{
 			InitObject(i);
