@@ -1,6 +1,6 @@
 
 // ESR_RadarDlg.cpp : 구현 파일
-//commit test
+//
 #pragma once
 
 #include "stdafx.h"
