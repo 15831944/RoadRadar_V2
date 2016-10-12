@@ -183,6 +183,7 @@ void CRadar_Protocol::FilterObject()
 	CDraw_Controller pDrawController;
 	CLog_Controller log_Controller;
 	pDrawController.InitCanvas();
+	pDrawController.InitDialogData();
 
 	for(int i = 0; i<64;i++)
 	{
@@ -211,29 +212,6 @@ void CRadar_Protocol::FilterObject()
 				if(m_realObject.object[i].object_ok = true)
 				{
 					pDrawController.DrawObjectInfo(m_realObject.object[i]);
-					/*
-					for(int j = 0; j<=i;j++)
-					{
-						if(i==j)
-						{
-							log_Controller.WriteObjectInfo(m_realObject.object[i]);
-							pDrawController.DrawObjectInfo(m_realObject.object[i]);
-						}
-						else if((m_realObject.object[i].dbXCoordinate-m_realObject.object[j].dbXCoordinate)<critical_X)
-						{
-							if((m_realObject.object[i].dbXCoordinate-m_realObject.object[j].dbXCoordinate)>(-1*critical_X))
-							{
-								if((m_realObject.object[i].dbYCoordinate-m_realObject.object[j].dbYCoordinate)<critical_Y)
-								{
-									if((m_realObject.object[i].dbYCoordinate-m_realObject.object[j].dbYCoordinate)>(-1*critical_Y))
-									{
-										InitObject(i);
-										break;
-									}
-								}
-							}
-						}
-					}*/
 				}
 			}
 		}					
@@ -243,6 +221,7 @@ void CRadar_Protocol::FilterObject()
 		}
 	}
 	pDrawController.DisplayImage(pDrawController.m_pImage2, IDC_RADAR_PICTURE);
+	pDrawController.DisplayDialogData();
 }
 
 unsigned char CRadar_Protocol::MakeXORData(unsigned char *ucData, int nDataSize)

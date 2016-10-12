@@ -16,17 +16,19 @@ void CDraw_Controller::InitCanvas()
 {
 	//radar 영상 초기화
 	cvCopy(m_pImage,m_pImage2);
-	DisplayImage(m_pImage2, IDC_RADAR_PICTURE);
+}
 
-
-	//radar 데이터 초기화
-	CWinApp *p = AfxGetApp();
-	CWnd *m_pWnd = p->GetMainWnd();
-	CESR_RadarDlg* pMainWnd = (CESR_RadarDlg*)m_pWnd;
-
-	for(int id = 1000; id<1064;id++)
+void CDraw_Controller::InitDialogData()
+{
+	for(int i = 0; i<64;i++)
 	{
-		pMainWnd->SetDlgItemText(id,L" ");
+		DlgData[i].m_cstring_ID=" ";
+		DlgData[i].m_cstring_Length=" ";
+		DlgData[i].m_cstring_YV = " ";
+		DlgData[i].m_cstring_XV = " ";
+		DlgData[i].m_cstring_Y = " ";
+		DlgData[i].m_cstring_X = " ";
+
 	}
 }
 
@@ -54,30 +56,30 @@ void CDraw_Controller::DrawRectangle(double x, double y, CString m_cstring_ID)
 
 void CDraw_Controller::DrawObjectInfo(SMS_OBJ_DATA PSmsObjData)
 {
-	 CWinApp *p = AfxGetApp();
-	 CWnd *m_pWnd = p->GetMainWnd();
-	 CESR_RadarDlg* pMainWnd = (CESR_RadarDlg*)m_pWnd;
 
-	int id;
-	CString m_cstring_ID;
-	CString m_cstring_X;
-	CString m_cstring_Y;
-	CString m_cstring_XV;
-	CString m_cstring_YV;
-	CString m_cstring_Length;
-	id = (int)PSmsObjData.ucObjectId+1000;
+	int id = (int)PSmsObjData.ucObjectId;
 
-	m_cstring_ID.Format(_T("%d"), PSmsObjData.ucObjectId);
-	m_cstring_Length.Format(_T("%3.2f"), PSmsObjData.dbObjectLength);
-	m_cstring_YV.Format(_T("%3.2f"),(PSmsObjData.dbYCoordinateVelocity)*3.6); // m/s를 km/h로 계산       * 참조 : km/h -> m/s = km/h * 1000/3600
-	m_cstring_XV.Format(_T("%3.2f"),(PSmsObjData.dbXCoordinateVelocity)*3.6);
-	m_cstring_Y.Format(_T("%3.2f"),PSmsObjData.dbYCoordinate);
-	m_cstring_X.Format(_T("%3.2f"),PSmsObjData.dbXCoordinate);
-	pMainWnd->SetDlgItemText(id,m_cstring_ID+L", x: " + m_cstring_X + L", y: " + m_cstring_Y + L", xv: " + m_cstring_XV + L", yv: " + m_cstring_YV+ L", leng: " + m_cstring_Length);
-	//pMainWnd->SetDlgItemText(id,m_cstring_ID + L", xv: " + m_cstring_XV + L", yv: " + m_cstring_YV);
-	//pMainWnd->SetDlgItemText(id,L"L: "+m_cstring_Length+L", x: " + m_cstring_X + L", y: " + m_cstring_Y);
+	DlgData[id].m_cstring_ID.Format(_T("%d : "), id);
+	DlgData[id].m_cstring_Length.Format(_T(" L: %3.2f"), PSmsObjData.dbObjectLength);
+	DlgData[id].m_cstring_YV.Format(_T(" yv: %3.2f"),(PSmsObjData.dbYCoordinateVelocity)*3.6); // m/s를 km/h로 계산       * 참조 : km/h -> m/s = km/h * 1000/3600
+	DlgData[id].m_cstring_XV.Format(_T(" xv: %3.2f"),(PSmsObjData.dbXCoordinateVelocity)*3.6);
+	DlgData[id].m_cstring_Y.Format(_T(" y: %3.2f"),PSmsObjData.dbYCoordinate);
+	DlgData[id].m_cstring_X.Format(_T(" x: %3.2f"),PSmsObjData.dbXCoordinate);
 	
-	DrawRectangle(PSmsObjData.dbXCoordinate, PSmsObjData.dbYCoordinate, m_cstring_ID);
+	DrawRectangle(PSmsObjData.dbXCoordinate, PSmsObjData.dbYCoordinate, DlgData[id].m_cstring_ID);
+}
+
+void CDraw_Controller::DisplayDialogData()
+{
+	CWinApp *p = AfxGetApp();
+	CWnd *m_pWnd = p->GetMainWnd();
+	CESR_RadarDlg* pMainWnd = (CESR_RadarDlg*)m_pWnd;
+	
+	for(int id = 0; id<64;id++)
+	{				
+		//pMainWnd->SetDlgItemText(id+1000,DlgData[id].m_cstring_ID+L", x: " + DlgData[id].m_cstring_X + L", y: " + DlgData[id].m_cstring_Y + L", xv: " + DlgData[id].m_cstring_XV + L", yv: " + DlgData[id].m_cstring_YV+ L", leng: " + DlgData[id].m_cstring_Length);
+		pMainWnd->SetDlgItemText(id+1000,DlgData[id].m_cstring_ID+DlgData[id].m_cstring_X+DlgData[id].m_cstring_Y+ DlgData[id].m_cstring_XV + DlgData[id].m_cstring_YV+ DlgData[id].m_cstring_Length);
+	}
 }
 
 void CDraw_Controller::DisplayImage(IplImage *srcimg, int item)
