@@ -1,7 +1,7 @@
-#ifndef    TCP_Connect_H
-#define    TCP_Connect_H
+#pragma once
 
 #include "stdafx.h"
+
 #pragma comment(lib, "ws2_32.lib")
 #define BUF_SIZE 2048
 
@@ -12,4 +12,3 @@ public:
 	~CTCP_Connect();
 	SOCKET Radar_Connect(char*, char*);
 };
-#endif

@@ -2,12 +2,10 @@
 // ESR_RadarDlg.h : 헤더 파일
 //
 #pragma once
-#include "Radar_Protocol.h"
+#include "stdafx.h"
 #include "resource.h"
-#include "opencv\cv.h"
-#include "opencv\highgui.h"
 
-
+#include "TCP_Connect.h"
 
 // CESR_RadarDlg 대화 상자
 class CESR_RadarDlg : public CDialogEx

@@ -2,10 +2,8 @@
 #include "stdafx.h"
 #include "opencv\cv.h" //환경변수에 C:\opencv2412\build\x86\vc11\bin 추가.(C드라이브에 opencv라이브러리 추가)
 #include "opencv\highgui.h"
+#include "DataStruct.h"
 #include "ESR_RadarDlg.h"
-//#include "Radar_Protocol.h"
-#include "resource.h"
-
 
 typedef struct __dlgData
 {

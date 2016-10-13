@@ -7,6 +7,7 @@
 #include "ESR_Radar.h"
 #include "ESR_RadarDlg.h"
 #include "afxdialogex.h"
+#include "Radar_Protocol.h"
 #include <thread>
 
 #ifdef _DEBUG
@@ -157,9 +158,9 @@ UINT CESR_RadarDlg::RadarThread(LPVOID arg)
 	HANDLE hMutex;
 	hMutex=CreateMutex(NULL,FALSE,NULL);//하나의 뮤텍스를 생성한다.
 	SOCKET hSocket = (*(SOCKET*)arg);
+
 	CRadar_Protocol *radar_obj = new CRadar_Protocol(); //메모리 관리필요
-	for(int i=0;i<63;i++)
-		radar_obj->InitObject(i);
+
 	while(1)
 	{		
 		radar_obj->RadarDataReceive(hSocket, hMutex);	

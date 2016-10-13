@@ -102,6 +102,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DataStruct.h" />
     <ClInclude Include="Draw_Controller.h" />
     <ClInclude Include="ESR_Radar.h" />
     <ClInclude Include="ESR_RadarDlg.h" />

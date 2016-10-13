@@ -56,7 +56,6 @@ void CDraw_Controller::DrawRectangle(double x, double y, CString m_cstring_ID)
 
 void CDraw_Controller::DrawObjectInfo(SMS_OBJ_DATA PSmsObjData)
 {
-
 	int id = (int)PSmsObjData.ucObjectId;
 
 	DlgData[id].m_cstring_ID.Format(_T("%d : "), id);
@@ -65,7 +64,7 @@ void CDraw_Controller::DrawObjectInfo(SMS_OBJ_DATA PSmsObjData)
 	DlgData[id].m_cstring_XV.Format(_T(" xv: %3.2f"),(PSmsObjData.dbXCoordinateVelocity)*3.6);
 	DlgData[id].m_cstring_Y.Format(_T(" y: %3.2f"),PSmsObjData.dbYCoordinate);
 	DlgData[id].m_cstring_X.Format(_T(" x: %3.2f"),PSmsObjData.dbXCoordinate);
-	
+
 	DrawRectangle(PSmsObjData.dbXCoordinate, PSmsObjData.dbYCoordinate, DlgData[id].m_cstring_ID);
 }
 
@@ -132,10 +131,10 @@ void CDraw_Controller::FillBitmapInfo(BITMAPINFO* bmi,int width, int height, int
 	 {
 	  RGBQUAD *palette = bmi->bmiColors;
 	  int i;
-	  for(i=0;256;i++)
+	  for(i=0;i<256;i++)
 	  {
-	   palette[i].rgbBlue = palette[i].rgbGreen = palette[i].rgbRed = (BYTE)i;
-	   palette[i].rgbReserved = 0;
+		   palette[i].rgbBlue = palette[i].rgbGreen = palette[i].rgbRed = (BYTE)i;
+		   palette[i].rgbReserved = 0;
 	  }
 	 }
 }

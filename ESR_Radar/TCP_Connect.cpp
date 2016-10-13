@@ -1,7 +1,7 @@
 #pragma once
 #include "TCP_Connect.h"
 #include "ESR_RadarDlg.h"
-#include "resource.h"
+
 
 SOCKET CTCP_Connect::Radar_Connect(char* ip, char* port)
 {
