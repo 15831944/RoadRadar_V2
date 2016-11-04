@@ -40,4 +40,6 @@ public:
 
 //thread ¸Þ¼Òµå
 	static UINT RadarThread(LPVOID);
+	static UINT CamThread(LPVOID);
+	afx_msg void OnBnClickedButton2();
 };

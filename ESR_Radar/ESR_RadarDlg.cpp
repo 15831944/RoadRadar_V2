@@ -64,6 +64,7 @@ BEGIN_MESSAGE_MAP(CESR_RadarDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_START_BUTTON, &CESR_RadarDlg::OnBnClickedStartButton)
 	ON_WM_TIMER()
 	ON_BN_CLICKED(IDC_CLOSE_BUTTON, &CESR_RadarDlg::OnBnClickedCloseButton)
+	ON_BN_CLICKED(IDC_BUTTON2, &CESR_RadarDlg::OnBnClickedButton2)
 END_MESSAGE_MAP()
 
 
@@ -159,14 +160,16 @@ UINT CESR_RadarDlg::RadarThread(LPVOID arg)
 	hMutex=CreateMutex(NULL,FALSE,NULL);//하나의 뮤텍스를 생성한다.
 	SOCKET hSocket = (*(SOCKET*)arg);
 
-	CRadar_Protocol *radar_obj = new CRadar_Protocol(); //메모리 관리필요
+	//CRadar_Protocol *radar_obj = new CRadar_Protocol(); //메모리 관리필요
+	CRadar_Protocol radar_obj;
 
 	while(1)
 	{		
-		radar_obj->RadarDataReceive(hSocket, hMutex);	
+		//radar_obj->RadarDataReceive(hSocket, hMutex);	
+		radar_obj.RadarDataReceive(hSocket, hMutex);
 		Sleep(50);
 	}
-	delete radar_obj;
+	//delete radar_obj;
 }
 
 void CESR_RadarDlg::OnBnClickedStartButton()
@@ -196,4 +199,35 @@ void CESR_RadarDlg::OnBnClickedCloseButton()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	CDialogEx::OnCancel();
+}
+
+UINT CESR_RadarDlg::CamThread(LPVOID arg)
+{
+	IplImage* img;
+	CvCapture* hCapture = (CvCapture*)arg;
+	
+	CDraw_Controller draw_obj;
+
+	while(true)
+	{		
+		img = cvQueryFrame(hCapture);
+		
+		if (!img)
+			return 0;
+		draw_obj.DisplayImage(img, IDC_CAM_PICTURE);
+	}
+	//delete draw_obj;
+}
+
+
+void CESR_RadarDlg::OnBnClickedButton2()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	CvCapture* capture = cvCaptureFromCAM(0);
+	if(!capture)
+	{
+		MessageBox(L"캠 연결 실패");
+		return ;
+	}
+	CWinThread *p1 = AfxBeginThread(CamThread, capture);
 }

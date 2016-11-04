@@ -28,7 +28,7 @@ public:
 	~CDraw_Controller();
 	void InitCanvas();
 	void InitDialogData();
-	void DrawRectangle(double, double, CString);
+	void DrawRectangle(double, double, double, CString);
 	void DrawObjectInfo(SMS_OBJ_DATA);
 	void DisplayDialogData();
 	void DisplayImage(IplImage *srcimg, int item);

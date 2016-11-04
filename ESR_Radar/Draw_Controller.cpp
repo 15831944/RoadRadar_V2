@@ -3,8 +3,8 @@
 
 CDraw_Controller::CDraw_Controller()
 {
-	m_pImage = cvLoadImage("radar.png");
-	m_pImage2 = cvLoadImage("radar.png");
+	m_pImage = cvLoadImage("radar3.png");
+	m_pImage2 = cvLoadImage("radar3.png");
 }
 CDraw_Controller::~CDraw_Controller()
 {
@@ -32,16 +32,18 @@ void CDraw_Controller::InitDialogData()
 	}
 }
 
-void CDraw_Controller::DrawRectangle(double x, double y, CString m_cstring_ID)
+void CDraw_Controller::DrawRectangle(double x, double y, double length, CString m_cstring_ID)
 {
 	char* id;
 	CvFont cv_font;
 	int rect_size = 2;
-	int y_pixel = 70;
+	int y_pixel = 10;
 	int point_x = x;
 	int point_y = (y_pixel / 2) - y; //좌우대칭위해서 +를 -로 변경
-	CvPoint P1 = cvPoint((point_x-rect_size), (point_y-rect_size));
-	CvPoint P2 = cvPoint((point_x+rect_size), (point_y+rect_size));
+	//CvPoint P1 = cvPoint((point_x-rect_size), (point_y-rect_size));
+	//CvPoint P2 = cvPoint((point_x+rect_size), (point_y+rect_size));
+	CvPoint P1 = cvPoint((point_x), point_y);
+	CvPoint P2 = cvPoint((point_x+length), point_y+0.5);
 
 	/* 폰트추가시 수정
 	USES_CONVERSION;
@@ -65,7 +67,7 @@ void CDraw_Controller::DrawObjectInfo(SMS_OBJ_DATA PSmsObjData)
 	DlgData[id].m_cstring_Y.Format(_T(" y: %3.2f"),PSmsObjData.dbYCoordinate);
 	DlgData[id].m_cstring_X.Format(_T(" x: %3.2f"),PSmsObjData.dbXCoordinate);
 
-	DrawRectangle(PSmsObjData.dbXCoordinate, PSmsObjData.dbYCoordinate, DlgData[id].m_cstring_ID);
+	DrawRectangle(PSmsObjData.dbXCoordinate, PSmsObjData.dbYCoordinate, PSmsObjData.dbObjectLength, DlgData[id].m_cstring_ID);
 }
 
 void CDraw_Controller::DisplayDialogData()
