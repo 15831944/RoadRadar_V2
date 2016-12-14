@@ -1,15 +1,18 @@
 #pragma once
 
+
 #include "stdafx.h"
 #include "DataStruct.h"
 #include "Draw_Controller.h"
 #include "Log_Controller.h"
 
+
 class CRadar_Protocol
 {
+	RealObject m_realObject;
+	
 public:
 	//변수
-	RealObject m_realObject;
 	
 	//메소드
 	CRadar_Protocol();

@@ -3,7 +3,7 @@
 #include "ESR_RadarDlg.h"
 
 
-SOCKET CTCP_Connect::Radar_Connect(char* ip, char* port)
+SOCKET CTCP_Connect::Radar_Connect(const char* ip, const char* port)
 {
 	SOCKET hSocket;
 	WSADATA wsaData;
@@ -27,6 +27,7 @@ SOCKET CTCP_Connect::Radar_Connect(char* ip, char* port)
 
 CTCP_Connect::CTCP_Connect()
 {
+	
 }
 
 CTCP_Connect::~CTCP_Connect()

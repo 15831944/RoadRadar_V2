@@ -1,18 +1,18 @@
 #pragma once
+
 #include "ESR_RadarDlg.h"
 #include "resource.h"
 #include "Radar_Protocol.h"
-
 
 
 #define critical_X 2.5
 #define critical_Y 2.5
 #define critical_Counter 7
 #define critical_CoordinateVelocity 0
-
+#define BUF_SIZE 2048
 
 CRadar_Protocol::CRadar_Protocol()
-{
+{		
 	for(int i=0;i<64;i++)
 		InitObject(i);
 }
@@ -54,11 +54,11 @@ SMS_OBJ_DATA* CRadar_Protocol::GetSmsObjectDataInfo(SMS_SENSOR_MESSAGE *lpSensor
 
 	//memset(SmsObjData, 0x00, sizeof(SMS_OBJ_DATA));
 	//SmsObjData->dwUpdateTime = dwCurrentTick;
-	SmsObjData->dbXCoordinate = ((((lpSensorData->lpData[1] & 0x3F) << 8) + lpSensorData->lpData[0]) - 8192) * 0.064;
-	SmsObjData->dbYCoordinate = ((((lpSensorData->lpData[3] & 0x0F) << 10) + (lpSensorData->lpData[2] << 2) + (lpSensorData->lpData[1] >> 6)) - 8192) * 0.064;
-	SmsObjData->dbXCoordinateVelocity   = ((((lpSensorData->lpData[4] & 0x7F) << 4) + (lpSensorData->lpData[3] >> 4)) - 1024) * 0.1;
-	SmsObjData->dbYCoordinateVelocity   = ((((lpSensorData->lpData[6] & 0x3) << 9) + (lpSensorData->lpData[5] << 1) + (lpSensorData->lpData[4] >> 7)) - 1024) * 0.1;
-	SmsObjData->dbObjectLength			= ((lpSensorData->lpData[7] & 0x3) << 6) + (lpSensorData->lpData[6] >> 2) * 0.2;
+	SmsObjData->dbXCoordinate = ((((lpSensorData->lpData[1] & 0x3F) << 8) + lpSensorData->lpData[0]) - 8192) * 0.064; // 단위 :m
+	SmsObjData->dbYCoordinate = ((((lpSensorData->lpData[3] & 0x0F) << 10) + (lpSensorData->lpData[2] << 2) + (lpSensorData->lpData[1] >> 6)) - 8192) * 0.064; // 단위 :m
+	SmsObjData->dbXCoordinateVelocity   = ((((lpSensorData->lpData[4] & 0x7F) << 4) + (lpSensorData->lpData[3] >> 4)) - 1024) * 0.1; //단위: m/s
+	SmsObjData->dbYCoordinateVelocity   = ((((lpSensorData->lpData[6] & 0x3) << 9) + (lpSensorData->lpData[5] << 1) + (lpSensorData->lpData[4] >> 7)) - 1024) * 0.1; //단위: m/s
+	SmsObjData->dbObjectLength			= ((lpSensorData->lpData[7] & 0x3) << 6) + (lpSensorData->lpData[6] >> 2) * 0.2; //m
 	SmsObjData->ucObjectId				= lpSensorData->lpData[7] >> 2;
 
 	SmsObjData->object_possibility = true;

@@ -4,8 +4,8 @@
 #pragma once
 #include "stdafx.h"
 #include "resource.h"
-
 #include "TCP_Connect.h"
+#include <string>
 
 // CESR_RadarDlg 대화 상자
 class CESR_RadarDlg : public CDialogEx
@@ -23,6 +23,8 @@ public:
 // 구현입니다.
 protected:
 	HICON m_hIcon;
+	char* ip;
+	char* port;
 
 	// 생성된 메시지 맵 함수
 	virtual BOOL OnInitDialog();

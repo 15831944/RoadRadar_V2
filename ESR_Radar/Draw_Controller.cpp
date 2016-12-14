@@ -1,10 +1,13 @@
 #pragma once
+#include <math.h>
 #include "Draw_Controller.h"
 
 CDraw_Controller::CDraw_Controller()
 {
-	m_pImage = cvLoadImage("radar3.png");
-	m_pImage2 = cvLoadImage("radar3.png");
+	char* image_name = "radar5.jpg"; //size : 600*211
+
+	m_pImage = cvLoadImage(image_name);
+	m_pImage2 = cvLoadImage(image_name);
 }
 CDraw_Controller::~CDraw_Controller()
 {
@@ -34,16 +37,33 @@ void CDraw_Controller::InitDialogData()
 
 void CDraw_Controller::DrawRectangle(double x, double y, double length, CString m_cstring_ID)
 {
+	//레이더의 로우데이터를 활용하여 차량의 위치를 그리는 함수이다.
+	// x, y, z, length, id가 로우데이터에 해당한다.
+	// cvRectangle 함수를 통해 결과 값을 그려주므로 별도의 return 값은 없다.
+	
 	char* id;
 	CvFont cv_font;
-	int rect_size = 2;
-	int y_pixel = 10;
-	int point_x = x;
-	int point_y = (y_pixel / 2) - y; //좌우대칭위해서 +를 -로 변경
-	//CvPoint P1 = cvPoint((point_x-rect_size), (point_y-rect_size));
-	//CvPoint P2 = cvPoint((point_x+rect_size), (point_y+rect_size));
-	CvPoint P1 = cvPoint((point_x), point_y);
-	CvPoint P2 = cvPoint((point_x+length), point_y+0.5);
+	int road_width = 5; //도로 폭이 5m
+	int road_count = 2; //도로 차선 2개		
+	int y_pix = 20;
+	int point_x = x*2; // 이미지 크기가 600이므로 300m를 표현하기 위해 2를 곱해줌.
+	length =length*2; // 이미지 크기가 600이므로 길이를 정확하게 표현하기 위해 2를 곱해줌.	
+		
+	double y_min = 0;
+	double y_max = 12;	
+
+	if(y_min<y && y_max>y) //도로 밖의 y좌표는 오류로 인식
+	{
+		int road_ratio = y_pix / (road_count * road_width);
+		int point_y=y_pix-(fabs(y_min-y) * road_ratio); // 이미지 픽셀값 - 절대값(Y최소값 - Y현재값) * 도로 비율
+		int car_half_width = 4 * road_ratio / 2;
+	
+		CvPoint P1 = cvPoint((point_x), point_y-car_half_width);
+		CvPoint P2 = cvPoint((point_x+length), point_y+car_half_width);
+
+		cvRectangle(m_pImage2, P1, P2, CV_RGB(153,255,0),1, CV_AA, 0 );
+	}
+	//DisplayImage(m_pImage2, IDC_RADAR_PICTURE);
 
 	/* 폰트추가시 수정
 	USES_CONVERSION;
@@ -51,9 +71,6 @@ void CDraw_Controller::DrawRectangle(double x, double y, double length, CString 
 	cvInitFont(&cv_font, CV_FONT_HERSHEY_COMPLEX_SMALL,0.4,0.4,0,1,CV_AA);
 	cvPutText(m_pImage2, id, cvPoint(point_x,point_y),&cv_font,cvScalar(0,0,255));
 	*/
-
-	cvRectangle(m_pImage2, P1, P2, CV_RGB(153,255,0),1, CV_AA, 0 );
-	//DisplayImage(m_pImage2, IDC_RADAR_PICTURE);
 }
 
 void CDraw_Controller::DrawObjectInfo(SMS_OBJ_DATA PSmsObjData)

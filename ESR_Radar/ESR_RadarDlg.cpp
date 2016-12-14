@@ -100,7 +100,8 @@ BOOL CESR_RadarDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 작은 아이콘을 설정합니다.
 
 	// TODO: 여기에 추가 초기화 작업을 추가합니다.
-	
+	ip = "192.168.127.254";
+	port = "4001";
 
 	return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
 }
@@ -166,6 +167,7 @@ UINT CESR_RadarDlg::RadarThread(LPVOID arg)
 	while(1)
 	{		
 		//radar_obj->RadarDataReceive(hSocket, hMutex);	
+
 		radar_obj.RadarDataReceive(hSocket, hMutex);
 		Sleep(50);
 	}
@@ -173,8 +175,9 @@ UINT CESR_RadarDlg::RadarThread(LPVOID arg)
 }
 
 void CESR_RadarDlg::OnBnClickedStartButton()
+
 {
-	hSocket = radar_tcp.Radar_Connect("192.168.127.254", "4001");
+	hSocket = radar_tcp.Radar_Connect(ip, port);
 	
 	CWinThread *p1 = AfxBeginThread(RadarThread, &hSocket);
 	if(p1 == NULL)
