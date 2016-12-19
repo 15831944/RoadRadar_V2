@@ -4,11 +4,15 @@
 
 CDraw_Controller::CDraw_Controller()
 {
-	char* image_name = "radar5.jpg"; //size : 600*211
 
-	m_pImage = cvLoadImage(image_name);
-	m_pImage2 = cvLoadImage(image_name);
 }
+
+CDraw_Controller::CDraw_Controller(char* src_image_name)
+{
+	m_pImage = cvLoadImage(src_image_name);
+	m_pImage2 = cvLoadImage(src_image_name);
+}
+
 CDraw_Controller::~CDraw_Controller()
 {
 	cvReleaseImage(&m_pImage);
@@ -31,7 +35,6 @@ void CDraw_Controller::InitDialogData()
 		DlgData[i].m_cstring_XV = " ";
 		DlgData[i].m_cstring_Y = " ";
 		DlgData[i].m_cstring_X = " ";
-
 	}
 }
 
@@ -73,7 +76,7 @@ void CDraw_Controller::DrawRectangle(double x, double y, double length, CString 
 	*/
 }
 
-void CDraw_Controller::DrawObjectInfo(SMS_OBJ_DATA PSmsObjData)
+IplImage* CDraw_Controller::DrawObjectInfo(SMS_OBJ_DATA PSmsObjData)
 {
 	int id = (int)PSmsObjData.ucObjectId;
 
@@ -85,6 +88,7 @@ void CDraw_Controller::DrawObjectInfo(SMS_OBJ_DATA PSmsObjData)
 	DlgData[id].m_cstring_X.Format(_T(" x: %3.2f"),PSmsObjData.dbXCoordinate);
 
 	DrawRectangle(PSmsObjData.dbXCoordinate, PSmsObjData.dbYCoordinate, PSmsObjData.dbObjectLength, DlgData[id].m_cstring_ID);
+	return m_pImage2;
 }
 
 void CDraw_Controller::DisplayDialogData()
@@ -95,7 +99,6 @@ void CDraw_Controller::DisplayDialogData()
 	
 	for(int id = 0; id<64;id++)
 	{				
-		//pMainWnd->SetDlgItemText(id+1000,DlgData[id].m_cstring_ID+L", x: " + DlgData[id].m_cstring_X + L", y: " + DlgData[id].m_cstring_Y + L", xv: " + DlgData[id].m_cstring_XV + L", yv: " + DlgData[id].m_cstring_YV+ L", leng: " + DlgData[id].m_cstring_Length);
 		pMainWnd->SetDlgItemText(id+1000,DlgData[id].m_cstring_ID+DlgData[id].m_cstring_X+DlgData[id].m_cstring_Y+ DlgData[id].m_cstring_XV + DlgData[id].m_cstring_YV+ DlgData[id].m_cstring_Length);
 	}
 }

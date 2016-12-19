@@ -4,7 +4,8 @@
 #pragma once
 #include "stdafx.h"
 #include "resource.h"
-#include "TCP_Connect.h"
+#include "RoadRadar.h"
+#include "Draw_Controller.h"
 #include <string>
 
 // CESR_RadarDlg 대화 상자
@@ -33,7 +34,7 @@ protected:
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
 public:
-	CTCP_Connect radar_tcp;
+	
 	SOCKET hSocket;
 
 	afx_msg void OnBnClickedStartButton();

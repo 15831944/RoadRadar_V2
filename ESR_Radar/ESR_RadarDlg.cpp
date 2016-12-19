@@ -3,11 +3,9 @@
 //commit test
 #pragma once
 
-#include "stdafx.h"
-#include "ESR_Radar.h"
 #include "ESR_RadarDlg.h"
 #include "afxdialogex.h"
-#include "Radar_Protocol.h"
+
 #include <thread>
 
 #ifdef _DEBUG
@@ -62,7 +60,6 @@ BEGIN_MESSAGE_MAP(CESR_RadarDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()	
 	ON_BN_CLICKED(IDC_START_BUTTON, &CESR_RadarDlg::OnBnClickedStartButton)
-	ON_WM_TIMER()
 	ON_BN_CLICKED(IDC_CLOSE_BUTTON, &CESR_RadarDlg::OnBnClickedCloseButton)
 	ON_BN_CLICKED(IDC_BUTTON2, &CESR_RadarDlg::OnBnClickedButton2)
 END_MESSAGE_MAP()
@@ -157,45 +154,28 @@ HCURSOR CESR_RadarDlg::OnQueryDragIcon()
 
 UINT CESR_RadarDlg::RadarThread(LPVOID arg)
 {
-	HANDLE hMutex;
-	hMutex=CreateMutex(NULL,FALSE,NULL);//하나의 뮤텍스를 생성한다.
-	SOCKET hSocket = (*(SOCKET*)arg);
-
-	//CRadar_Protocol *radar_obj = new CRadar_Protocol(); //메모리 관리필요
-	CRadar_Protocol radar_obj;
+	HANDLE hMutex = (*(HANDLE*)arg);
+	
+	RoadRadar road_Radar("192.168.127.254", "4001");	
 
 	while(1)
-	{		
-		//radar_obj->RadarDataReceive(hSocket, hMutex);	
-
-		radar_obj.RadarDataReceive(hSocket, hMutex);
-		Sleep(50);
+	{	
+		Sleep(10);
+		road_Radar.RadarDataInfo();
+			
 	}
-	//delete radar_obj;
 }
 
 void CESR_RadarDlg::OnBnClickedStartButton()
-
 {
-	hSocket = radar_tcp.Radar_Connect(ip, port);
-	
-	CWinThread *p1 = AfxBeginThread(RadarThread, &hSocket);
+	//hSocket = radar_tcp.Radar_Connect(ip, port);
+	HANDLE hMutex;
+	hMutex=CreateMutex(NULL,FALSE,NULL); //하나의 뮤텍스를 생성한다.
+
+	CWinThread *p1 = AfxBeginThread(RadarThread, &hMutex);
 	if(p1 == NULL)
 		AfxMessageBox(L"thread error");
 	//CloseHandle(p1);
-	
-	//SetTimer(0,50,0);	
-}
-
-void CESR_RadarDlg::OnTimer(UINT_PTR nIDEvent)
-{
-	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-	HANDLE hMutex;
-	hMutex=CreateMutex(NULL,FALSE,NULL);//하나의 뮤텍스를 생성한다.
-	CDialogEx::OnTimer(nIDEvent);
-	CRadar_Protocol *radar_obj = new CRadar_Protocol();
-	radar_obj->RadarDataReceive(hSocket, hMutex);
-	delete radar_obj;
 }
 
 void CESR_RadarDlg::OnBnClickedCloseButton()

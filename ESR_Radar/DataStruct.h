@@ -72,13 +72,6 @@ typedef struct __tagSMSObjectData
 	// Processing Data End
 	/////////////////////////////////////
 	*/
-
-	/////////////////////////////////////
-	// Object Check
-	/////////////////////////////////////
-	bool object_ok; 
-	bool object_possibility;
-	int possibility_counter;
 }SMS_OBJ_DATA;
 
 typedef struct {
@@ -86,3 +79,14 @@ typedef struct {
   float average_speed;
   SMS_OBJ_DATA object[64];
 } RealObject;
+
+typedef struct __dlgData
+{
+	CString m_cstring_ID;
+	CString m_cstring_X;
+	CString m_cstring_Y;
+	CString m_cstring_XV;
+	CString m_cstring_YV;
+	CString m_cstring_Length;
+
+}DLG_DATA;

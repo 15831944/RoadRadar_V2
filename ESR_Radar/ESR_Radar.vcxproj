@@ -107,23 +107,22 @@
     <ClInclude Include="ESR_Radar.h" />
     <ClInclude Include="ESR_RadarDlg.h" />
     <ClInclude Include="Log_Controller.h" />
-    <ClInclude Include="Radar_Protocol.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="RoadRadar.h" />
+    <ClInclude Include="Sensor.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="TCP_Connect.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Draw_Controller.cpp" />
     <ClCompile Include="ESR_Radar.cpp" />
     <ClCompile Include="ESR_RadarDlg.cpp" />
     <ClCompile Include="Log_Controller.cpp" />
-    <ClCompile Include="Radar_Protocol.cpp" />
+    <ClCompile Include="RoadRadar.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="TCP_Connect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ESR_Radar.rc" />
