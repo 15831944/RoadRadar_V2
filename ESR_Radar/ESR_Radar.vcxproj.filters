@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="소스 파일\GridCtrl">
+      <UniqueIdentifier>{df0f34bb-e91c-409a-9a73-058e1ee6106b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\GridCtrl">
+      <UniqueIdentifier>{30d2bcb2-b043-4ea4-b1d2-71c7252f1adb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -48,6 +54,30 @@
     <ClInclude Include="Draw_Controller.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="GridCtrl\CellRange.h">
+      <Filter>헤더 파일\GridCtrl</Filter>
+    </ClInclude>
+    <ClInclude Include="GridCtrl\GridCell.h">
+      <Filter>헤더 파일\GridCtrl</Filter>
+    </ClInclude>
+    <ClInclude Include="GridCtrl\GridCellBase.h">
+      <Filter>헤더 파일\GridCtrl</Filter>
+    </ClInclude>
+    <ClInclude Include="GridCtrl\GridCtrl.h">
+      <Filter>헤더 파일\GridCtrl</Filter>
+    </ClInclude>
+    <ClInclude Include="GridCtrl\GridDropTarget.h">
+      <Filter>헤더 파일\GridCtrl</Filter>
+    </ClInclude>
+    <ClInclude Include="GridCtrl\InPlaceEdit.h">
+      <Filter>헤더 파일\GridCtrl</Filter>
+    </ClInclude>
+    <ClInclude Include="GridCtrl\MemDC.h">
+      <Filter>헤더 파일\GridCtrl</Filter>
+    </ClInclude>
+    <ClInclude Include="GridCtrl\TitleTip.h">
+      <Filter>헤더 파일\GridCtrl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ESR_Radar.cpp">
@@ -67,6 +97,24 @@
     </ClCompile>
     <ClCompile Include="Draw_Controller.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="GridCtrl\GridCell.cpp">
+      <Filter>소스 파일\GridCtrl</Filter>
+    </ClCompile>
+    <ClCompile Include="GridCtrl\GridCellBase.cpp">
+      <Filter>소스 파일\GridCtrl</Filter>
+    </ClCompile>
+    <ClCompile Include="GridCtrl\GridCtrl.cpp">
+      <Filter>소스 파일\GridCtrl</Filter>
+    </ClCompile>
+    <ClCompile Include="GridCtrl\GridDropTarget.cpp">
+      <Filter>소스 파일\GridCtrl</Filter>
+    </ClCompile>
+    <ClCompile Include="GridCtrl\InPlaceEdit.cpp">
+      <Filter>소스 파일\GridCtrl</Filter>
+    </ClCompile>
+    <ClCompile Include="GridCtrl\TitleTip.cpp">
+      <Filter>소스 파일\GridCtrl</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

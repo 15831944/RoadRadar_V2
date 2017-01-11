@@ -1,4 +1,5 @@
 #pragma once
+#include "stdafx.h"
 #include "Log_Controller.h"
 
 using namespace std;

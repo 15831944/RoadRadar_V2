@@ -49,7 +49,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -106,6 +106,14 @@
     <ClInclude Include="Draw_Controller.h" />
     <ClInclude Include="ESR_Radar.h" />
     <ClInclude Include="ESR_RadarDlg.h" />
+    <ClInclude Include="GridCtrl\CellRange.h" />
+    <ClInclude Include="GridCtrl\GridCell.h" />
+    <ClInclude Include="GridCtrl\GridCellBase.h" />
+    <ClInclude Include="GridCtrl\GridCtrl.h" />
+    <ClInclude Include="GridCtrl\GridDropTarget.h" />
+    <ClInclude Include="GridCtrl\InPlaceEdit.h" />
+    <ClInclude Include="GridCtrl\MemDC.h" />
+    <ClInclude Include="GridCtrl\TitleTip.h" />
     <ClInclude Include="Log_Controller.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="RoadRadar.h" />
@@ -117,6 +125,12 @@
     <ClCompile Include="Draw_Controller.cpp" />
     <ClCompile Include="ESR_Radar.cpp" />
     <ClCompile Include="ESR_RadarDlg.cpp" />
+    <ClCompile Include="GridCtrl\GridCell.cpp" />
+    <ClCompile Include="GridCtrl\GridCellBase.cpp" />
+    <ClCompile Include="GridCtrl\GridCtrl.cpp" />
+    <ClCompile Include="GridCtrl\GridDropTarget.cpp" />
+    <ClCompile Include="GridCtrl\InPlaceEdit.cpp" />
+    <ClCompile Include="GridCtrl\TitleTip.cpp" />
     <ClCompile Include="Log_Controller.cpp" />
     <ClCompile Include="RoadRadar.cpp" />
     <ClCompile Include="stdafx.cpp">

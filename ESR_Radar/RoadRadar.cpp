@@ -1,5 +1,5 @@
 #pragma once
-
+#include "stdafx.h"
 #include "RoadRadar.h"
 #include <math.h>
 
@@ -51,6 +51,7 @@ void RoadRadar::communication()
 	{
 		pMainWnd->MessageBox(L"Socket connection Failed");
 		WSACleanup();
+		pMainWnd->PostMessageW(WM_CLOSE);
 	}
 	else
 	{
@@ -212,19 +213,22 @@ void RoadRadar::AccidentGuessAlgorithm()
 void RoadRadar::RadarDataInfo()
 {		
 	radar_Paint.InitCanvas();
-	radar_Paint.InitDialogData();
-
+	//radar_Paint.InitDialogData();
+	
 	getInfo();
+	radar_Paint.InitCrd();
 
 	AccidentGuessAlgorithm();
-		
+
 	for(vector<SMS_OBJ_DATA>::iterator iter = objectData.begin();iter !=objectData.end();++iter)
 	{
-		m_pImage = radar_Paint.DrawObjectInfo(*iter);
+		
+		radar_Paint.DrawObjectInfo(*iter);
 	}
 
-	radar_Paint.DisplayImage(m_pImage, IDC_RADAR_PICTURE);
-	radar_Paint.DisplayDialogData();
+	radar_Paint.DisplayImage(radar_Paint.m_pImage2, IDC_RADAR_PICTURE);
+	radar_Paint.DisplayCrd();
+	//radar_Paint.DisplayDialogData();
 
 	objectData.clear();
 }

@@ -6,6 +6,7 @@
 #include "resource.h"
 #include "RoadRadar.h"
 #include "Draw_Controller.h"
+#include "GridCtrl\GridCtrl.h"
 #include <string>
 
 // CESR_RadarDlg 대화 상자
@@ -36,6 +37,7 @@ protected:
 public:
 	
 	SOCKET hSocket;
+	CGridCtrl m_grdAdd;
 
 	afx_msg void OnBnClickedStartButton();
 	afx_msg void OnTimer(UINT_PTR nIDEvent);

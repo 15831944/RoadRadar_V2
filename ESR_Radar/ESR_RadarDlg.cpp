@@ -2,10 +2,9 @@
 // ESR_RadarDlg.cpp : 구현 파일
 //commit test
 #pragma once
-
+#include "stdafx.h"
 #include "ESR_RadarDlg.h"
 #include "afxdialogex.h"
-
 #include <thread>
 
 #ifdef _DEBUG
@@ -53,6 +52,7 @@ CESR_RadarDlg::CESR_RadarDlg(CWnd* pParent /*=NULL*/)
 void CESR_RadarDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
+	DDX_Control(pDX, IDC_GRD_ADD, m_grdAdd);
 }
 
 BEGIN_MESSAGE_MAP(CESR_RadarDlg, CDialogEx)
@@ -160,14 +160,14 @@ UINT CESR_RadarDlg::RadarThread(LPVOID arg)
 
 	while(1)
 	{	
-		Sleep(10);
-		road_Radar.RadarDataInfo();
-			
+		Sleep(40);
+		road_Radar.RadarDataInfo();			
 	}
 }
 
 void CESR_RadarDlg::OnBnClickedStartButton()
 {
+
 	//hSocket = radar_tcp.Radar_Connect(ip, port);
 	HANDLE hMutex;
 	hMutex=CreateMutex(NULL,FALSE,NULL); //하나의 뮤텍스를 생성한다.
@@ -175,7 +175,10 @@ void CESR_RadarDlg::OnBnClickedStartButton()
 	CWinThread *p1 = AfxBeginThread(RadarThread, &hMutex);
 	if(p1 == NULL)
 		AfxMessageBox(L"thread error");
+
 	//CloseHandle(p1);
+
+
 }
 
 void CESR_RadarDlg::OnBnClickedCloseButton()
