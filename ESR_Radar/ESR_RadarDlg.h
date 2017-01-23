@@ -7,6 +7,7 @@
 #include "RoadRadar.h"
 #include "Draw_Controller.h"
 #include "GridCtrl\GridCtrl.h"
+#include "CamDlg.h"
 #include <string>
 
 // CESR_RadarDlg 대화 상자
@@ -15,6 +16,8 @@ class CESR_RadarDlg : public CDialogEx
 // 생성입니다.
 public:
 	CESR_RadarDlg(CWnd* pParent = NULL);	// 표준 생성자입니다.
+
+	CCamDlg *m_pCamDlg;
 
 // 대화 상자 데이터입니다.
 	enum { IDD = IDD_ESR_RADAR_DIALOG };
@@ -47,4 +50,5 @@ public:
 	static UINT RadarThread(LPVOID);
 	static UINT CamThread(LPVOID);
 	afx_msg void OnBnClickedButton2();
+	afx_msg void OnBnClickedCamButton();
 };

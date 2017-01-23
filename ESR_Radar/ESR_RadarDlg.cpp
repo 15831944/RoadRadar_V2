@@ -62,6 +62,7 @@ BEGIN_MESSAGE_MAP(CESR_RadarDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_START_BUTTON, &CESR_RadarDlg::OnBnClickedStartButton)
 	ON_BN_CLICKED(IDC_CLOSE_BUTTON, &CESR_RadarDlg::OnBnClickedCloseButton)
 	ON_BN_CLICKED(IDC_BUTTON2, &CESR_RadarDlg::OnBnClickedButton2)
+	ON_BN_CLICKED(IDC_CAM_BUTTON, &CESR_RadarDlg::OnBnClickedCamButton)
 END_MESSAGE_MAP()
 
 
@@ -216,4 +217,13 @@ void CESR_RadarDlg::OnBnClickedButton2()
 		return ;
 	}
 	CWinThread *p1 = AfxBeginThread(CamThread, capture);
+}
+
+
+void CESR_RadarDlg::OnBnClickedCamButton()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	m_pCamDlg = new CCamDlg();
+	m_pCamDlg->Create(IDD_CAM_DIALOG, this);
+	m_pCamDlg->ShowWindow(SW_SHOW);
 }

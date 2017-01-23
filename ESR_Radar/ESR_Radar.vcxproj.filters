@@ -78,6 +78,9 @@
     <ClInclude Include="GridCtrl\TitleTip.h">
       <Filter>헤더 파일\GridCtrl</Filter>
     </ClInclude>
+    <ClInclude Include="CamDlg.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ESR_Radar.cpp">
@@ -115,6 +118,9 @@
     </ClCompile>
     <ClCompile Include="GridCtrl\TitleTip.cpp">
       <Filter>소스 파일\GridCtrl</Filter>
+    </ClCompile>
+    <ClCompile Include="CamDlg.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
