@@ -70,10 +70,10 @@ void CDraw_Controller::DisplayCrd()
 	pMainWnd->m_grdAdd.SetRowCount(vector_data.size());
 	pMainWnd->m_grdAdd.SetColumnCount(nCnt);
 
-	// 넓이/높이 설정	
-	for(int i=0; i<nCnt; i++)
+	// 넓이/높이 설정		
+	/* for(int i=0; i<nCnt; i++)
 		pMainWnd->m_grdAdd.SetColumnWidth(i, nWidth[i]);
-	//pMainWnd->m_grdAdd.SetRowHeight(0, 24);
+	pMainWnd->m_grdAdd.SetRowHeight(0, 24); */
 	
 
 	for (int row = 0; row < vector_data.size(); row++) { //행 수 

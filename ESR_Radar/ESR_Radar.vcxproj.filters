@@ -81,6 +81,9 @@
     <ClInclude Include="CamDlg.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="CvvImage.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ESR_Radar.cpp">
@@ -120,6 +123,9 @@
       <Filter>소스 파일\GridCtrl</Filter>
     </ClCompile>
     <ClCompile Include="CamDlg.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CvvImage.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

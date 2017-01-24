@@ -103,6 +103,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CamDlg.h" />
+    <ClInclude Include="CvvImage.h" />
     <ClInclude Include="DataStruct.h" />
     <ClInclude Include="Draw_Controller.h" />
     <ClInclude Include="ESR_Radar.h" />
@@ -124,6 +125,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CamDlg.cpp" />
+    <ClCompile Include="CvvImage.cpp" />
     <ClCompile Include="Draw_Controller.cpp" />
     <ClCompile Include="ESR_Radar.cpp" />
     <ClCompile Include="ESR_RadarDlg.cpp" />

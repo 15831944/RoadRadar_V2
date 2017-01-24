@@ -51,4 +51,5 @@ public:
 	static UINT CamThread(LPVOID);
 	afx_msg void OnBnClickedButton2();
 	afx_msg void OnBnClickedCamButton();
+//	afx_msg void OnBnClickedCamButton2();
 };
