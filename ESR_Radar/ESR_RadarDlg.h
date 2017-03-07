@@ -8,6 +8,7 @@
 #include "Draw_Controller.h"
 #include "GridCtrl\GridCtrl.h"
 #include "CamDlg.h"
+#include "RMDDlg.h"
 #include <string>
 
 // CESR_RadarDlg 대화 상자
@@ -18,6 +19,7 @@ public:
 	CESR_RadarDlg(CWnd* pParent = NULL);	// 표준 생성자입니다.
 
 	CCamDlg *m_pCamDlg;
+	RMDDlg *m_pRmdDlg;
 
 // 대화 상자 데이터입니다.
 	enum { IDD = IDD_ESR_RADAR_DIALOG };

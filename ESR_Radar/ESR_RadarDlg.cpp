@@ -58,10 +58,9 @@ void CESR_RadarDlg::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CESR_RadarDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
-	ON_WM_QUERYDRAGICON()	
+	ON_WM_QUERYDRAGICON()
 	ON_BN_CLICKED(IDC_START_BUTTON, &CESR_RadarDlg::OnBnClickedStartButton)
 	ON_BN_CLICKED(IDC_CLOSE_BUTTON, &CESR_RadarDlg::OnBnClickedCloseButton)
-	ON_BN_CLICKED(IDC_BUTTON2, &CESR_RadarDlg::OnBnClickedButton2)
 	ON_BN_CLICKED(IDC_CAM_BUTTON, &CESR_RadarDlg::OnBnClickedCamButton)
 	ON_BN_CLICKED(IDC_RMD_BUTTON, &CESR_RadarDlg::OnBnClickedRmdButton)
 END_MESSAGE_MAP()
@@ -187,6 +186,8 @@ void CESR_RadarDlg::OnBnClickedCloseButton()
 	CDialogEx::OnCancel();
 }
 
+//영상재생부분을 다이얼로그로 옮기면서 주석처리함.
+/* 
 UINT CESR_RadarDlg::CamThread(LPVOID arg)
 {
 	IplImage* img;
@@ -205,7 +206,6 @@ UINT CESR_RadarDlg::CamThread(LPVOID arg)
 	//delete draw_obj;
 }
 
-
 void CESR_RadarDlg::OnBnClickedButton2()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
@@ -217,6 +217,7 @@ void CESR_RadarDlg::OnBnClickedButton2()
 	}
 	CWinThread *p1 = AfxBeginThread(CamThread, capture);
 }
+*/
 
 void CESR_RadarDlg::OnBnClickedCamButton()
 {
@@ -226,79 +227,10 @@ void CESR_RadarDlg::OnBnClickedCamButton()
 	m_pCamDlg->ShowWindow(SW_SHOW);
 }
 
-UINT CESR_RadarDlg::RmdThread(LPVOID arg)
-{
-	return ((CESR_RadarDlg*)arg)->RmdLoop();
-}
-
 void CESR_RadarDlg::OnBnClickedRmdButton()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	AfxBeginThread(RmdThread, this);
-}
-
-UINT CESR_RadarDlg::RmdLoop()
-{
-	SOCKET hSocket;
-	WSADATA wsaData;
-	SOCKADDR_IN servAdr;
-
-	CString m_cstring_count;
-	CString m_cstring_temperature;	
-	CString m_cstring_humidity;
-	CString m_cstring_power;
-	CString m_cstring_battery;
-	CString m_cstring_motion;
-	CString m_cstring_flame;
-	CString m_cstring_smoke;
-	CString m_cstring_state;
-
-	char message[1024];	
-	int strLen;
-	int rmd_bit[14][8];
-	char temp_message;
-	char mess[8]={0x0002,0x0000,0x0000,0x0056,0x0000,0x0000,0x0003,0xA5};
-	int flame_check;
-
-	if(WSAStartup(MAKEWORD(2,2), &wsaData) != 0)		
-		MessageBox(_T("WSAStartup error!!"));
-
-	hSocket = socket(PF_INET, SOCK_STREAM, 0);
-	if(hSocket == INVALID_SOCKET)		
-		MessageBox(_T("socket() error!!"));
-	
-	memset(&servAdr, 0, sizeof(servAdr));
-	servAdr.sin_family = AF_INET;
-	servAdr.sin_addr.s_addr = inet_addr("192.168.127.99");
-	servAdr.sin_port=htons(atoi("4001"));
-	if(connect(hSocket, (SOCKADDR*)&servAdr, sizeof(servAdr)) == SOCKET_ERROR)				
-		MessageBox(_T("connect() error!!"));
-	else
-		MessageBox(_T("connect success!!"));
-
-	while(1)
-	{
-		Sleep(100);
-		send(hSocket, mess, 8,0);
-		strLen = recv(hSocket, message, 1023,0);
-		message[strLen] = 0;
-
-		if(strLen==14){
-			m_cstring_count.Format(_T("%d"), strLen);
-			m_cstring_temperature.Format(_T("%d"), message[4]);						
-			m_cstring_humidity.Format(_T("%d"), message[5]);						
-			m_cstring_power.Format(_T("%d"), message[6]);						
-			m_cstring_battery.Format(_T("%d"), message[7]);					
-			m_cstring_motion.Format(_T("%d"), message[8]);			
-			m_cstring_flame.Format(_T("%d"), message[9]);
-			m_cstring_smoke.Format(_T("%d"), message[10]);			
-			m_cstring_state.Format(_T("%d"), message[11]);
-
-			SetDlgItemText(IDC_STATIC_temp,m_cstring_temperature);			
-			SetDlgItemText(IDC_STATIC_humi,m_cstring_humidity);
-			SetDlgItemText(IDC_STATIC_motion,m_cstring_motion);			
-			SetDlgItemText(IDC_STATIC_fire,m_cstring_flame);
-			SetDlgItemText(IDC_STATIC_smoke,m_cstring_smoke);
-		}
-	}
+	m_pRmdDlg = new RMDDlg();
+	m_pRmdDlg->Create(IDD_RMD_DIALOG);
+	m_pRmdDlg->ShowWindow(SW_SHOW);
 }
