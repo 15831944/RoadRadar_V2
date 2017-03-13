@@ -49,6 +49,54 @@ void CDraw_Controller::InitCrd()
 	vector_data.push_back(m_dlg_data);
 }
 
+void CDraw_Controller::InitListControlerCrd()
+{
+
+}
+
+void CDraw_Controller::ListControlerCrd()
+{
+	CWinApp *p = AfxGetApp();
+	CWnd *m_pWnd = p->GetMainWnd();
+	CESR_RadarDlg* pMainWnd = (CESR_RadarDlg*)m_pWnd;
+
+	enum col_type {id, x, y, xv, xy, length};
+
+	DLG_DATA m_dlg_data;
+
+	pMainWnd->m_list.DeleteAllItems();
+
+	for (int row = 0; row < vector_data.size(); row++) { //행 수 
+		m_dlg_data = vector_data[row];
+		for (int col = 0; col < 6; col++) { //열 수 
+			switch (col)
+			{
+			case id:
+				pMainWnd->m_list.InsertItem(row, m_dlg_data.m_cstring_ID);
+				break;
+			case x:
+				pMainWnd->m_list.SetItem(row,col, LVIF_TEXT, m_dlg_data.m_cstring_X,0,0,0,NULL);  					
+				break;
+			case y:
+				pMainWnd->m_list.SetItem(row,col, LVIF_TEXT, m_dlg_data.m_cstring_Y,0,0,0,NULL);  									
+				break;
+			case xv:
+				pMainWnd->m_list.SetItem(row,col, LVIF_TEXT, m_dlg_data.m_cstring_XV,0,0,0,NULL);  									
+				break;
+			case xy:
+				pMainWnd->m_list.SetItem(row,col, LVIF_TEXT, m_dlg_data.m_cstring_YV,0,0,0,NULL);
+				break;
+			case length:
+				pMainWnd->m_list.SetItem(row,col, LVIF_TEXT, m_dlg_data.m_cstring_Length,0,0,0,NULL); 							
+				break;
+			default:
+				break;
+			}
+		}
+	}
+
+}
+
 void CDraw_Controller::DisplayCrd()
 {
 	CWinApp *p = AfxGetApp();
@@ -181,11 +229,11 @@ void CDraw_Controller::DrawObjectInfo(SMS_OBJ_DATA PSmsObjData)
 
 	DLG_DATA m_dlg_data;
 
-	m_dlg_data.m_cstring_ID.Format(_T("%d : "), (int)PSmsObjData.ucObjectId);
-	m_dlg_data.m_cstring_X.Format(_T(" x: %3.2f"),PSmsObjData.dbXCoordinate);
-	m_dlg_data.m_cstring_Y.Format(_T(" y: %3.2f"),PSmsObjData.dbYCoordinate);
-	m_dlg_data.m_cstring_XV.Format(_T(" xv: %3.2f"),(PSmsObjData.dbXCoordinateVelocity)*3.6);
-	m_dlg_data.m_cstring_YV.Format(_T(" yv: %3.2f"),(PSmsObjData.dbYCoordinateVelocity)*3.6); // m/s를 km/h로 계산       * 참조 : km/h -> m/s = km/h * 1000/3600
+	m_dlg_data.m_cstring_ID.Format(_T("%d"), (int)PSmsObjData.ucObjectId);
+	m_dlg_data.m_cstring_X.Format(_T("%3.2f"),PSmsObjData.dbXCoordinate);
+	m_dlg_data.m_cstring_Y.Format(_T("%3.2f"),PSmsObjData.dbYCoordinate);
+	m_dlg_data.m_cstring_XV.Format(_T("%3.2f"),(PSmsObjData.dbXCoordinateVelocity)*3.6);
+	m_dlg_data.m_cstring_YV.Format(_T("%3.2f"),(PSmsObjData.dbYCoordinateVelocity)*3.6); // m/s를 km/h로 계산       * 참조 : km/h -> m/s = km/h * 1000/3600
 	m_dlg_data.m_cstring_Length.Format(_T("%3.2f"), PSmsObjData.dbObjectLength);
 	
 	vector_data.push_back(m_dlg_data);

@@ -10,6 +10,7 @@
 #include "CamDlg.h"
 #include "RMDDlg.h"
 #include <string>
+#include "afxcmn.h"
 
 // CESR_RadarDlg 대화 상자
 class CESR_RadarDlg : public CDialogEx
@@ -43,6 +44,7 @@ public:
 	
 	SOCKET hSocket;
 	CGridCtrl m_grdAdd;
+	CListCtrl m_list;
 
 	afx_msg void OnBnClickedStartButton();
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
@@ -56,4 +58,5 @@ public:
 	afx_msg void OnBnClickedCamButton();
 	afx_msg void OnBnClickedRmdButton();
 	afx_msg UINT RadarLoop();
+	
 };

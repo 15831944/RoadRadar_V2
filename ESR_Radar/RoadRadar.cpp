@@ -215,7 +215,7 @@ void RoadRadar::RadarDataInfo()
 	//radar_Paint.InitDialogData();
 	
 	getInfo();
-	radar_Paint.InitCrd();
+	//radar_Paint.InitCrd();
 
 	AccidentGuessAlgorithm();
 
@@ -225,7 +225,8 @@ void RoadRadar::RadarDataInfo()
 	}
 
 	radar_Paint.DisplayImage(radar_Paint.m_pImage2, IDC_RADAR_PICTURE);
-	radar_Paint.DisplayCrd();
+	radar_Paint.ListControlerCrd();
+	//radar_Paint.DisplayCrd();
 	//radar_Paint.DisplayDialogData();
 
 	objectData.clear();

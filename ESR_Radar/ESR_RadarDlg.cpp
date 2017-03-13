@@ -52,7 +52,7 @@ CESR_RadarDlg::CESR_RadarDlg(CWnd* pParent /*=NULL*/)
 void CESR_RadarDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
-	DDX_Control(pDX, IDC_GRD_ADD, m_grdAdd);
+	DDX_Control(pDX, IDC_LIST1, m_list);
 }
 
 BEGIN_MESSAGE_MAP(CESR_RadarDlg, CDialogEx)
@@ -100,6 +100,14 @@ BOOL CESR_RadarDlg::OnInitDialog()
 	// TODO: 여기에 추가 초기화 작업을 추가합니다.
 	ip = "192.168.127.254";
 	port = "4001";
+
+	m_list.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES );
+	m_list.InsertColumn(0, _T("ID"), LVCFMT_LEFT, 100, -1); 
+	m_list.InsertColumn(1, _T("X"), LVCFMT_LEFT, 100, -1); 
+	m_list.InsertColumn(2, _T("Y"), LVCFMT_LEFT, 100, -1); 
+	m_list.InsertColumn(3, _T("XV"), LVCFMT_LEFT, 100, -1); 
+	m_list.InsertColumn(4, _T("YV"), LVCFMT_LEFT, 100, -1);
+	m_list.InsertColumn(5, _T("length"), LVCFMT_LEFT, 100, -1);
 
 	return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
 }
