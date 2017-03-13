@@ -3,30 +3,27 @@
 #include "RoadRadar.h"
 #include <math.h>
 
-char* image_name = "radar5.png";
+char* image_name = "radar6.png";
 CDraw_Controller radar_Paint(image_name);
 
 RoadRadar::RoadRadar(const char* ip, const char* port)
-	:serverAddr(ip), serverPort(port), _socket(nullptr)
 {
-	communication();
+	_socket = communication(ip, port);
 
 	m_pImage = NULL;
 }
 
 RoadRadar::~RoadRadar(void)
 {
-	if(_socket!=nullptr)
-	{
-		WSACleanup();
-		shutdown(*_socket,SD_SEND);
-		closesocket(*_socket);
-		_socket = nullptr;
-	}
 }
 
-void RoadRadar::communication()
+int RoadRadar::communication(const char* serverAddr, const char* serverPort)
 {
+	/* Tcp variable*/
+	SOCKET _socket;
+	WSADATA _wsaData;
+	SOCKADDR_IN _sockAddr;
+
 	CESR_RadarDlg* pMainWnd = (CESR_RadarDlg*)::AfxGetMainWnd();
 
 	if(WSAStartup(MAKEWORD(2,2),&_wsaData)!=0)
@@ -35,9 +32,9 @@ void RoadRadar::communication()
 		WSACleanup();
 	}
 
-	_socket = new SOCKET(socket(AF_INET,SOCK_STREAM,IPPROTO_TCP));
+	_socket = SOCKET(socket(AF_INET,SOCK_STREAM,IPPROTO_TCP));
 
-	if(*_socket == INVALID_SOCKET)
+	if(_socket == INVALID_SOCKET)
 	{
 		pMainWnd->MessageBox(L"Socket creation Failed");
 		WSACleanup();
@@ -47,7 +44,7 @@ void RoadRadar::communication()
 	_sockAddr.sin_port = htons(atoi(serverPort));
 	_sockAddr.sin_addr.s_addr = inet_addr(serverAddr);
 	
-	if(connect(*_socket,(SOCKADDR*)(&_sockAddr),sizeof(_sockAddr))!=0)
+	if(connect(_socket,(SOCKADDR*)(&_sockAddr),sizeof(_sockAddr))!=0)
 	{
 		pMainWnd->MessageBox(L"Socket connection Failed");
 		WSACleanup();
@@ -57,6 +54,8 @@ void RoadRadar::communication()
 	{
 		pMainWnd->MessageBox(L"Socket connection Success!");
 	}
+
+	return _socket;
 }
 
 unsigned char RoadRadar::MakeXORData(unsigned char *ucData, int nDataSize)
@@ -105,7 +104,7 @@ void RoadRadar::getInfo()
 
 	memset(tcpBuffer,0,BUF_SIZE);
 
-	nDataSize = recv(*_socket, tcpBuffer, BUF_SIZE,0);
+	nDataSize = recv(_socket, tcpBuffer, BUF_SIZE,0);
 
 	unsigned char* lpSensorData = new unsigned char[nDataSize+1]; //버퍼 동적할당 추후에 오류날 가능성 있음. & 메모리릭 관리요망 & memcpy()제대로 되는지 확인 요망
 	memset(lpSensorData,0,nDataSize+1);
@@ -221,8 +220,7 @@ void RoadRadar::RadarDataInfo()
 	AccidentGuessAlgorithm();
 
 	for(vector<SMS_OBJ_DATA>::iterator iter = objectData.begin();iter !=objectData.end();++iter)
-	{
-		
+	{		
 		radar_Paint.DrawObjectInfo(*iter);
 	}
 

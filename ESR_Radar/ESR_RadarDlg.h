@@ -55,5 +55,5 @@ public:
 	afx_msg void OnBnClickedButton2();
 	afx_msg void OnBnClickedCamButton();
 	afx_msg void OnBnClickedRmdButton();
-	afx_msg UINT RmdLoop();
+	afx_msg UINT RadarLoop();
 };

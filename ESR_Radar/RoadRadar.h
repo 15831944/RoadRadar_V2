@@ -22,12 +22,7 @@ public:
 	void RadarDataInfo();
 
 private:
-	/* Tcp variable*/
-	const char* serverAddr;
-	const char* serverPort;
-	SOCKET* _socket;
-	WSADATA _wsaData;
-	SOCKADDR_IN _sockAddr;
+	SOCKET _socket;
 	
 	/* Radar variable*/
 	vector<SMS_OBJ_DATA> objectData;
@@ -37,7 +32,8 @@ private:
 	DLG_DATA DlgData[64];
 
 	/* base interface function */
-	virtual void communication(); //TcpIp communication : Moxa Server
+
+	virtual int communication(const char* ip, const char* port); //TcpIp communication : Moxa Server
 	virtual void getInfo(); //Get Radar Info
 	
 	/* create function */

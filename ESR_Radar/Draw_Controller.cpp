@@ -12,6 +12,8 @@ CDraw_Controller::CDraw_Controller(char* src_image_name)
 {
 	m_pImage = cvLoadImage(src_image_name);
 	m_pImage2 = cvLoadImage(src_image_name);
+
+	Setting();
 }
 
 CDraw_Controller::~CDraw_Controller()
@@ -109,16 +111,39 @@ void CDraw_Controller::DisplayCrd()
 	pMainWnd->m_grdAdd.Invalidate();
 }
 
+void CDraw_Controller::Setting()
+{
+	real_max_height = 5; //현재 레이더 프로그램 상에 출력되는 최대 y축값
+	real_min_height = -5; //현재 레이더 프로그램 상에 출력되는 최소 y축값
+	real_max_width = 300; //현재 레이더 프로그램 상에 출력되는 최대 x축값
+	
+	road_width = 5; //차선 폭
+	road_count = 2; //차선 갯수
+	image_width = 900; //이미지 가로 픽셀
+	image_height = 200; //이미지 세로 픽셀
+
+	pixel_per_meter_width = image_width / real_max_width;	
+	pixel_per_meter_height = image_height / (road_count * road_width); //1m당 이미지에서 차지하는 픽셀 갯수
+
+	car_half_height = 4/2;  //차량 폭은 2m
+	car_half_height *= pixel_per_meter_height;
+}
+
 void CDraw_Controller::DrawRectangle(double x, double y, double length )
 {
 	//레이더의 로우데이터를 활용하여 차량의 위치를 그리는 함수이다.
 	// x, y, z, length, id가 로우데이터에 해당한다.
 	// cvRectangle 함수를 통해 결과 값을 그려주므로 별도의 return 값은 없다.
 	
-	char* id;
-	CvFont cv_font;
-	int road_width = 5; //도로 폭이 5m
-	int road_count = 2; //도로 차선 2개		
+	current_pixel_per_height = image_height - (fabs(real_min_height - y) * pixel_per_meter_height); //현재 자동차 y축 위치의 픽셀
+
+	length *= pixel_per_meter_width;
+
+	CvPoint P1 = cvPoint((x*pixel_per_meter_width), current_pixel_per_height-car_half_height);
+	CvPoint P2 = cvPoint((x*pixel_per_meter_width+length), current_pixel_per_height+car_half_height);
+	cvRectangle(m_pImage2, P1, P2, CV_RGB(153,255,0),1, CV_AA, 0 );
+
+	/*
 	int y_pix = 20;
 	int point_x = x*2; // 이미지 크기가 600이므로 300m를 표현하기 위해 2를 곱해줌.
 	length =length*2; // 이미지 크기가 600이므로 길이를 정확하게 표현하기 위해 2를 곱해줌.	
@@ -128,7 +153,7 @@ void CDraw_Controller::DrawRectangle(double x, double y, double length )
 
 	if(y_min<y && y_max>y) //도로 밖의 y좌표는 오류로 인식
 	{
-		int road_ratio = y_pix / (road_count * road_width);
+		int road_ratio = y_pix / (road_count * road_width); //1m당 이미지에서 차지하는 픽셀 갯수
 		int point_y=y_pix-(fabs(y_min-y) * road_ratio); // 이미지 픽셀값 - 절대값(Y최소값 - Y현재값) * 도로 비율
 		int car_half_width = 4 * road_ratio / 2;
 	
@@ -137,9 +162,13 @@ void CDraw_Controller::DrawRectangle(double x, double y, double length )
 
 		cvRectangle(m_pImage2, P1, P2, CV_RGB(153,255,0),1, CV_AA, 0 );
 	}
+	*/
+
 	//DisplayImage(m_pImage2, IDC_RADAR_PICTURE);
 
 	/* 폰트추가시 수정
+	char* id;
+	CvFont cv_font;
 	USES_CONVERSION;
 	id = T2A(m_cstring_ID);
 	cvInitFont(&cv_font, CV_FONT_HERSHEY_COMPLEX_SMALL,0.4,0.4,0,1,CV_AA);

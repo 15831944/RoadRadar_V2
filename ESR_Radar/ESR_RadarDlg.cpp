@@ -157,7 +157,12 @@ UINT CESR_RadarDlg::RadarThread(LPVOID arg)
 {
 	HANDLE hMutex = (*(HANDLE*)arg);
 	
-	RoadRadar road_Radar("192.168.127.254", "4001");	
+	return ((CESR_RadarDlg*)arg)->RadarLoop();
+}
+
+UINT CESR_RadarDlg::RadarLoop()
+{
+	RoadRadar road_Radar("192.168.127.254", "4001");
 
 	while(1)
 	{	
@@ -184,6 +189,22 @@ void CESR_RadarDlg::OnBnClickedCloseButton()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	CDialogEx::OnCancel();
+}
+
+void CESR_RadarDlg::OnBnClickedCamButton()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	m_pCamDlg = new CCamDlg();
+	m_pCamDlg->Create(IDD_CAM_DIALOG, this);
+	m_pCamDlg->ShowWindow(SW_SHOW);
+}
+
+void CESR_RadarDlg::OnBnClickedRmdButton()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	m_pRmdDlg = new RMDDlg();
+	m_pRmdDlg->Create(IDD_RMD_DIALOG);
+	m_pRmdDlg->ShowWindow(SW_SHOW);
 }
 
 //영상재생부분을 다이얼로그로 옮기면서 주석처리함.
@@ -218,19 +239,3 @@ void CESR_RadarDlg::OnBnClickedButton2()
 	CWinThread *p1 = AfxBeginThread(CamThread, capture);
 }
 */
-
-void CESR_RadarDlg::OnBnClickedCamButton()
-{
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	m_pCamDlg = new CCamDlg();
-	m_pCamDlg->Create(IDD_CAM_DIALOG, this);
-	m_pCamDlg->ShowWindow(SW_SHOW);
-}
-
-void CESR_RadarDlg::OnBnClickedRmdButton()
-{
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	m_pRmdDlg = new RMDDlg();
-	m_pRmdDlg->Create(IDD_RMD_DIALOG);
-	m_pRmdDlg->ShowWindow(SW_SHOW);
-}
