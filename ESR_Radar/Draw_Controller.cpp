@@ -26,6 +26,7 @@ void CDraw_Controller::InitCanvas()
 {
 	//radar 영상 초기화
 	cvCopy(m_pImage,m_pImage2);
+	vector_data.clear();
 }
 
 void CDraw_Controller::InitCrd()
@@ -94,7 +95,6 @@ void CDraw_Controller::ListControlerCrd()
 			}
 		}
 	}
-
 }
 
 void CDraw_Controller::DisplayCrd()
