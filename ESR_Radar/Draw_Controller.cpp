@@ -12,8 +12,6 @@ CDraw_Controller::CDraw_Controller(char* src_image_name)
 {
 	m_pImage = cvLoadImage(src_image_name);
 	m_pImage2 = cvLoadImage(src_image_name);
-
-	Setting();
 }
 
 CDraw_Controller::~CDraw_Controller()
@@ -26,6 +24,7 @@ void CDraw_Controller::InitCanvas()
 {
 	//radar 영상 초기화
 	cvCopy(m_pImage,m_pImage2);
+	InitSetting();
 	vector_data.clear();
 }
 
@@ -159,21 +158,35 @@ void CDraw_Controller::DisplayCrd()
 	pMainWnd->m_grdAdd.Invalidate();
 }
 
-void CDraw_Controller::Setting()
+void CDraw_Controller::InitSetting()
 {
-	real_max_height = 5; //현재 레이더 프로그램 상에 출력되는 최대 y축값
-	real_min_height = -5; //현재 레이더 프로그램 상에 출력되는 최소 y축값
-	real_max_width = 300; //현재 레이더 프로그램 상에 출력되는 최대 x축값
-	
-	road_width = 5; //차선 폭
-	road_count = 2; //차선 갯수
+	CWinApp *p = AfxGetApp();
+	CWnd *m_pWnd = p->GetMainWnd();
+	CESR_RadarDlg* pMainWnd = (CESR_RadarDlg*)m_pWnd;
+
 	image_width = 900; //이미지 가로 픽셀
 	image_height = 200; //이미지 세로 픽셀
+
+	if(pMainWnd->Auto_InitSetting == true)
+	{
+		real_min_height = -5; //현재 레이더 프로그램 상에 출력되는 최소 y축값
+		real_max_width = 300; //현재 레이더 프로그램 상에 출력되는 최대 x축값
+		road_width = 3; //차선 폭은 3m
+		road_count = 3; //차선 갯수
+
+	}
+	else
+	{
+		real_min_height = pMainWnd->real_min_height;
+		real_max_width = pMainWnd->real_max_width;
+		road_width = pMainWnd->road_width;
+		road_count = pMainWnd->road_count;
+	}
 
 	pixel_per_meter_width = image_width / real_max_width;	
 	pixel_per_meter_height = image_height / (road_count * road_width); //1m당 이미지에서 차지하는 픽셀 갯수
 
-	car_half_height = 4/2;  //차량 폭은 2m
+	car_half_height = 2/2;  //차량 폭은 2m -> 차량 폭의 반은 1m
 	car_half_height *= pixel_per_meter_height;
 }
 
@@ -183,7 +196,9 @@ void CDraw_Controller::DrawRectangle(double x, double y, double length )
 	// x, y, z, length, id가 로우데이터에 해당한다.
 	// cvRectangle 함수를 통해 결과 값을 그려주므로 별도의 return 값은 없다.
 	
-	current_pixel_per_height = image_height - (fabs(real_min_height - y) * pixel_per_meter_height); //현재 자동차 y축 위치의 픽셀
+	current_pixel_per_height = image_height - (fabs(real_min_height - y) * pixel_per_meter_height); //레이더가 현재 자동차 뒷면을 볼때 y축 위치의 픽셀
+	
+	//current_pixel_per_height = fabs(real_min_height - y) * pixel_per_meter_height; //레이더가 현재 자동차 정면을 볼때 y축 위치의 픽셀
 
 	length *= pixel_per_meter_width;
 

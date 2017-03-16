@@ -63,6 +63,7 @@ BEGIN_MESSAGE_MAP(CESR_RadarDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_CLOSE_BUTTON, &CESR_RadarDlg::OnBnClickedCloseButton)
 	ON_BN_CLICKED(IDC_CAM_BUTTON, &CESR_RadarDlg::OnBnClickedCamButton)
 	ON_BN_CLICKED(IDC_RMD_BUTTON, &CESR_RadarDlg::OnBnClickedRmdButton)
+	ON_BN_CLICKED(IDC_Setting, &CESR_RadarDlg::OnBnClickedSetting)
 END_MESSAGE_MAP()
 
 
@@ -108,6 +109,8 @@ BOOL CESR_RadarDlg::OnInitDialog()
 	m_list.InsertColumn(3, _T("XV"), LVCFMT_LEFT, 100, -1); 
 	m_list.InsertColumn(4, _T("YV"), LVCFMT_LEFT, 100, -1);
 	m_list.InsertColumn(5, _T("length"), LVCFMT_LEFT, 100, -1);
+
+	Auto_InitSetting = true;
 
 	return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
 }
@@ -247,3 +250,11 @@ void CESR_RadarDlg::OnBnClickedButton2()
 	CWinThread *p1 = AfxBeginThread(CamThread, capture);
 }
 */
+
+void CESR_RadarDlg::OnBnClickedSetting()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	m_pSettingDlg = new Setting();
+	m_pSettingDlg->Create(IDD_SETTING_DIALOG, this);
+	m_pSettingDlg->ShowWindow(SW_SHOW);
+}

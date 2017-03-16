@@ -24,7 +24,6 @@ public:
 	int image_height;
 	int image_width;
 	int real_min_height;
-	int real_max_height;
 	int real_min_width;
 	int real_max_width;
 	int real_current_height;
@@ -44,7 +43,7 @@ public:
 	void DisplayCrd();
 	void ListControlerCrd();
 	void DrawRectangle(double, double, double);
-	void Setting();
+	void InitSetting();
 	void DrawObjectInfo(SMS_OBJ_DATA);
 	void DisplayDialogData();
 	void WriteCrd(int, double, double, double, double, double);

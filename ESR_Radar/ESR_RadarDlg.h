@@ -9,6 +9,7 @@
 #include "GridCtrl\GridCtrl.h"
 #include "CamDlg.h"
 #include "RMDDlg.h"
+#include "Setting.h"
 #include <string>
 #include "afxcmn.h"
 
@@ -20,6 +21,7 @@ public:
 	CESR_RadarDlg(CWnd* pParent = NULL);	// 표준 생성자입니다.
 
 	CCamDlg *m_pCamDlg;
+	Setting *m_pSettingDlg;
 	RMDDlg *m_pRmdDlg;
 
 // 대화 상자 데이터입니다.
@@ -45,10 +47,18 @@ public:
 	SOCKET hSocket;
 	CGridCtrl m_grdAdd;
 	CListCtrl m_list;
+	
+	//setting
+	bool Auto_InitSetting;
+	int real_min_height;
+	int real_max_width;
+	int road_width;
+	int road_count;
 
 	afx_msg void OnBnClickedStartButton();
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	afx_msg void OnBnClickedCloseButton();
+	
 
 //thread 메소드
 	static UINT RadarThread(LPVOID);
@@ -59,4 +69,5 @@ public:
 	afx_msg void OnBnClickedRmdButton();
 	afx_msg UINT RadarLoop();
 	
+	afx_msg void OnBnClickedSetting();
 };
