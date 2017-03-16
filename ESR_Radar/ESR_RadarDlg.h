@@ -6,7 +6,7 @@
 #include "resource.h"
 #include "RoadRadar.h"
 #include "Draw_Controller.h"
-#include "GridCtrl\GridCtrl.h"
+//#include "GridCtrl\GridCtrl.h"
 #include "CamDlg.h"
 #include "RMDDlg.h"
 #include "Setting.h"
@@ -45,7 +45,7 @@ protected:
 public:
 	
 	SOCKET hSocket;
-	CGridCtrl m_grdAdd;
+	//CGridCtrl m_grdAdd;
 	CListCtrl m_list;
 	
 	//setting

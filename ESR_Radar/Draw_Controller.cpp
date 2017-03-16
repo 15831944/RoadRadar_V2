@@ -28,32 +28,6 @@ void CDraw_Controller::InitCanvas()
 	vector_data.clear();
 }
 
-void CDraw_Controller::InitCrd()
-{
-	CWinApp *p = AfxGetApp();
-	CWnd *m_pWnd = p->GetMainWnd();
-	CESR_RadarDlg* pMainWnd = (CESR_RadarDlg*)m_pWnd;
-
-	DLG_DATA m_dlg_data;
-	
-	pMainWnd->m_grdAdd.DeleteAllItems();
-	vector_data.clear();
-
-	m_dlg_data.m_cstring_ID = "ID";
-	m_dlg_data.m_cstring_X = "X";
-	m_dlg_data.m_cstring_Y = "Y";
-	m_dlg_data.m_cstring_XV = "XV";
-	m_dlg_data.m_cstring_YV = "YV";
-	m_dlg_data.m_cstring_Length = "Length";	
-
-	vector_data.push_back(m_dlg_data);
-}
-
-void CDraw_Controller::InitListControlerCrd()
-{
-
-}
-
 void CDraw_Controller::ListControlerCrd()
 {
 	CWinApp *p = AfxGetApp();
@@ -94,68 +68,6 @@ void CDraw_Controller::ListControlerCrd()
 			}
 		}
 	}
-}
-
-void CDraw_Controller::DisplayCrd()
-{
-	CWinApp *p = AfxGetApp();
-	CWnd *m_pWnd = p->GetMainWnd();
-	CESR_RadarDlg* pMainWnd = (CESR_RadarDlg*)m_pWnd;
-
-	DLG_DATA m_dlg_data;
-
-	int nWidth[] = {70, 70, 70, 70, 70, 70};
-	int nCnt = sizeof(nWidth) / sizeof(*nWidth);
-
-	enum col_type {id, x, y, xv, xy, length};
-
-	pMainWnd->m_grdAdd.SetEditable(false);
-	pMainWnd->m_grdAdd.EnableScrollBars(SB_BOTH, FALSE);
-
-	// 고정 행/열 설정
-	pMainWnd->m_grdAdd.SetFixedRowCount(1);
-
-	// 행/열 갯수 설정
-	pMainWnd->m_grdAdd.SetRowCount(vector_data.size());
-	pMainWnd->m_grdAdd.SetColumnCount(nCnt);
-
-	// 넓이/높이 설정		
-	/* for(int i=0; i<nCnt; i++)
-		pMainWnd->m_grdAdd.SetColumnWidth(i, nWidth[i]);
-	pMainWnd->m_grdAdd.SetRowHeight(0, 24); */
-	
-
-	for (int row = 0; row < vector_data.size(); row++) { //행 수 
-		m_dlg_data = vector_data[row];
-		for (int col = 0; col < pMainWnd->m_grdAdd.GetColumnCount(); col++) { //열 수 
-			{				
-				switch (col)
-				{
-				case id:
-					pMainWnd->m_grdAdd.SetItemText(row, col, m_dlg_data.m_cstring_ID);
-					break;
-				case x:
-					pMainWnd->m_grdAdd.SetItemText(row, col, m_dlg_data.m_cstring_X);
-					break;
-				case y:
-					pMainWnd->m_grdAdd.SetItemText(row, col, m_dlg_data.m_cstring_Y);
-					break;
-				case xv:
-					pMainWnd->m_grdAdd.SetItemText(row, col, m_dlg_data.m_cstring_XV);
-					break;
-				case xy:
-					pMainWnd->m_grdAdd.SetItemText(row, col, m_dlg_data.m_cstring_YV);
-					break;
-				case length:
-					pMainWnd->m_grdAdd.SetItemText(row, col, m_dlg_data.m_cstring_Length);
-					break;
-				default:
-					break;
-				}
-			}
-		}
-	}
-	pMainWnd->m_grdAdd.Invalidate();
 }
 
 void CDraw_Controller::InitSetting()
@@ -313,3 +225,85 @@ void CDraw_Controller::FillBitmapInfo(BITMAPINFO* bmi,int width, int height, int
 	  }
 	 }
 }
+
+
+/*
+void CDraw_Controller::DisplayCrd()
+{
+	CWinApp *p = AfxGetApp();
+	CWnd *m_pWnd = p->GetMainWnd();
+	CESR_RadarDlg* pMainWnd = (CESR_RadarDlg*)m_pWnd;
+
+	DLG_DATA m_dlg_data;
+
+	int nWidth[] = {70, 70, 70, 70, 70, 70};
+	int nCnt = sizeof(nWidth) / sizeof(*nWidth);
+
+	enum col_type {id, x, y, xv, xy, length};
+
+	pMainWnd->m_grdAdd.SetEditable(false);
+	pMainWnd->m_grdAdd.EnableScrollBars(SB_BOTH, FALSE);
+
+	// 고정 행/열 설정
+	pMainWnd->m_grdAdd.SetFixedRowCount(1);
+
+	// 행/열 갯수 설정
+	pMainWnd->m_grdAdd.SetRowCount(vector_data.size());
+	pMainWnd->m_grdAdd.SetColumnCount(nCnt);	
+
+	for (int row = 0; row < vector_data.size(); row++) { //행 수 
+		m_dlg_data = vector_data[row];
+		for (int col = 0; col < pMainWnd->m_grdAdd.GetColumnCount(); col++) { //열 수 
+			{				
+				switch (col)
+				{
+				case id:
+					pMainWnd->m_grdAdd.SetItemText(row, col, m_dlg_data.m_cstring_ID);
+					break;
+				case x:
+					pMainWnd->m_grdAdd.SetItemText(row, col, m_dlg_data.m_cstring_X);
+					break;
+				case y:
+					pMainWnd->m_grdAdd.SetItemText(row, col, m_dlg_data.m_cstring_Y);
+					break;
+				case xv:
+					pMainWnd->m_grdAdd.SetItemText(row, col, m_dlg_data.m_cstring_XV);
+					break;
+				case xy:
+					pMainWnd->m_grdAdd.SetItemText(row, col, m_dlg_data.m_cstring_YV);
+					break;
+				case length:
+					pMainWnd->m_grdAdd.SetItemText(row, col, m_dlg_data.m_cstring_Length);
+					break;
+				default:
+					break;
+				}
+			}
+		}
+	}
+	pMainWnd->m_grdAdd.Invalidate();
+}
+*/
+
+/*
+void CDraw_Controller::InitCrd()
+{
+	CWinApp *p = AfxGetApp();
+	CWnd *m_pWnd = p->GetMainWnd();
+	CESR_RadarDlg* pMainWnd = (CESR_RadarDlg*)m_pWnd;
+
+	DLG_DATA m_dlg_data;
+	
+	pMainWnd->m_grdAdd.DeleteAllItems();
+	vector_data.clear();
+
+	m_dlg_data.m_cstring_ID = "ID";
+	m_dlg_data.m_cstring_X = "X";
+	m_dlg_data.m_cstring_Y = "Y";
+	m_dlg_data.m_cstring_XV = "XV";
+	m_dlg_data.m_cstring_YV = "YV";
+	m_dlg_data.m_cstring_Length = "Length";	
+
+	vector_data.push_back(m_dlg_data);
+}
+*/

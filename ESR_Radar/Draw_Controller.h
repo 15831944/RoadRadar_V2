@@ -37,16 +37,15 @@ public:
 	CDraw_Controller(char*);
 	~CDraw_Controller();
 
-	void InitCanvas();	
-	void InitCrd();
-	void InitListControlerCrd();
-	void DisplayCrd();
+	void InitCanvas();		
 	void ListControlerCrd();
 	void DrawRectangle(double, double, double);
 	void InitSetting();
 	void DrawObjectInfo(SMS_OBJ_DATA);
-	void DisplayDialogData();
-	void WriteCrd(int, double, double, double, double, double);
+	void DisplayDialogData();	
 	void DisplayImage(IplImage *srcimg, int item);
 	void FillBitmapInfo(BITMAPINFO* bmi,int width, int height, int bpp,int origin);
+	//void InitCrd();
+	//void WriteCrd(int, double, double, double, double, double);
+	//void DisplayCrd();
 };
