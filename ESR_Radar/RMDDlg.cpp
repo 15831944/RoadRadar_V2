@@ -77,6 +77,7 @@ UINT RMDDlg::GrabLoop()
 
 	while(1)
 	{
+		int temp;
 		Sleep(100);
 		send(hSocket, mess, 8,0);
 		strLen = recv(hSocket, message, 1023,0);
@@ -92,12 +93,36 @@ UINT RMDDlg::GrabLoop()
 			m_cstring_flame.Format(_T("%d"), message[9]);
 			m_cstring_smoke.Format(_T("%d"), message[10]);			
 			m_cstring_state.Format(_T("%d"), message[11]);
+				
+			if(message[9] == 3)
+			{
+				SetDlgItemText(IDC_STATIC_fire,_T("화재 감지!!"));
+			}
+			else
+			{
+				SetDlgItemText(IDC_STATIC_fire,m_cstring_flame);
+			}
+				
+			if(message[10] == 3)
+			{
+				SetDlgItemText(IDC_STATIC_fire,_T("연기 감지!!"));
+			}
+			else
+			{
+				SetDlgItemText(IDC_STATIC_smoke,m_cstring_smoke);
+			}
 
 			SetDlgItemText(IDC_STATIC_temp,m_cstring_temperature);			
 			SetDlgItemText(IDC_STATIC_humi,m_cstring_humidity);
-			SetDlgItemText(IDC_STATIC_motion,m_cstring_motion);			
-			SetDlgItemText(IDC_STATIC_fire,m_cstring_flame);
-			SetDlgItemText(IDC_STATIC_smoke,m_cstring_smoke);
+			SetDlgItemText(IDC_STATIC_motion,m_cstring_motion);						
+
+			/*
+			if(message[9] == 3)
+			{
+				MessageBox(_T("화재발생 점검바랍니다!!"));
+				break;
+			}
+			*/
 		}
 	}
 }

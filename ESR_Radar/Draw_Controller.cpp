@@ -28,6 +28,21 @@ void CDraw_Controller::InitCanvas()
 	vector_data.clear();
 }
 
+void CDraw_Controller::DrawObjectInfo(SMS_OBJ_DATA PSmsObjData)
+{
+	DLG_DATA m_dlg_data;
+
+	m_dlg_data.m_cstring_ID.Format(_T("%d"), (int)PSmsObjData.ucObjectId);
+	m_dlg_data.m_cstring_X.Format(_T("%3.2f"),PSmsObjData.dbXCoordinate);
+	m_dlg_data.m_cstring_Y.Format(_T("%3.2f"),PSmsObjData.dbYCoordinate);
+	m_dlg_data.m_cstring_XV.Format(_T("%3.2f"),(PSmsObjData.dbXCoordinateVelocity)*3.6);
+	m_dlg_data.m_cstring_YV.Format(_T("%3.2f"),(PSmsObjData.dbYCoordinateVelocity)*3.6); // m/s를 km/h로 계산       * 참조 : km/h -> m/s = km/h * 1000/3600
+	m_dlg_data.m_cstring_Length.Format(_T("%3.2f"), PSmsObjData.dbObjectLength);
+	
+	vector_data.push_back(m_dlg_data);
+	DrawRectangle(PSmsObjData.dbXCoordinate, PSmsObjData.dbYCoordinate, PSmsObjData.dbObjectLength);
+}
+
 void CDraw_Controller::ListControlerCrd()
 {
 	CWinApp *p = AfxGetApp();
@@ -76,15 +91,15 @@ void CDraw_Controller::InitSetting()
 	CWnd *m_pWnd = p->GetMainWnd();
 	CESR_RadarDlg* pMainWnd = (CESR_RadarDlg*)m_pWnd;
 
-	image_width = 900; //이미지 가로 픽셀
+	image_width = 1000; //이미지 가로 픽셀
 	image_height = 200; //이미지 세로 픽셀
 
 	if(pMainWnd->Auto_InitSetting == true)
 	{
 		real_min_height = -5; //현재 레이더 프로그램 상에 출력되는 최소 y축값
 		real_max_width = 300; //현재 레이더 프로그램 상에 출력되는 최대 x축값
-		road_width = 3; //차선 폭은 3m
-		road_count = 3; //차선 갯수
+		road_width = 5; //차선 폭은 3m
+		road_count = 2; //차선 갯수
 
 	}
 	else
@@ -116,7 +131,7 @@ void CDraw_Controller::DrawRectangle(double x, double y, double length )
 
 	CvPoint P1 = cvPoint((x*pixel_per_meter_width), current_pixel_per_height-car_half_height);
 	CvPoint P2 = cvPoint((x*pixel_per_meter_width+length), current_pixel_per_height+car_half_height);
-	cvRectangle(m_pImage2, P1, P2, CV_RGB(153,255,0),1, CV_AA, 0 );
+	cvRectangle(m_pImage2, P1, P2, CV_RGB(255,0,0),CV_FILLED, CV_AA, 0 );
 
 	/*
 	int y_pix = 20;
@@ -125,7 +140,7 @@ void CDraw_Controller::DrawRectangle(double x, double y, double length )
 		
 	double y_min = 0;
 	double y_max = 12;	
-
+	tla
 	if(y_min<y && y_max>y) //도로 밖의 y좌표는 오류로 인식
 	{
 		int road_ratio = y_pix / (road_count * road_width); //1m당 이미지에서 차지하는 픽셀 갯수
@@ -149,23 +164,6 @@ void CDraw_Controller::DrawRectangle(double x, double y, double length )
 	cvInitFont(&cv_font, CV_FONT_HERSHEY_COMPLEX_SMALL,0.4,0.4,0,1,CV_AA);
 	cvPutText(m_pImage2, id, cvPoint(point_x,point_y),&cv_font,cvScalar(0,0,255));
 	*/
-}
-
-void CDraw_Controller::DrawObjectInfo(SMS_OBJ_DATA PSmsObjData)
-{
-
-	DLG_DATA m_dlg_data;
-
-	m_dlg_data.m_cstring_ID.Format(_T("%d"), (int)PSmsObjData.ucObjectId);
-	m_dlg_data.m_cstring_X.Format(_T("%3.2f"),PSmsObjData.dbXCoordinate);
-	m_dlg_data.m_cstring_Y.Format(_T("%3.2f"),PSmsObjData.dbYCoordinate);
-	m_dlg_data.m_cstring_XV.Format(_T("%3.2f"),(PSmsObjData.dbXCoordinateVelocity)*3.6);
-	m_dlg_data.m_cstring_YV.Format(_T("%3.2f"),(PSmsObjData.dbYCoordinateVelocity)*3.6); // m/s를 km/h로 계산       * 참조 : km/h -> m/s = km/h * 1000/3600
-	m_dlg_data.m_cstring_Length.Format(_T("%3.2f"), PSmsObjData.dbObjectLength);
-	
-	vector_data.push_back(m_dlg_data);
-	
-	DrawRectangle(PSmsObjData.dbXCoordinate, PSmsObjData.dbYCoordinate, PSmsObjData.dbObjectLength);
 }
 
 void CDraw_Controller::DisplayImage(IplImage *srcimg, int item)

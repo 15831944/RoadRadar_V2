@@ -3,7 +3,7 @@
 #include "RoadRadar.h"
 #include <math.h>
 
-char* image_name = "radar6.png";
+char* image_name = "Road_300meter.png";
 CDraw_Controller radar_Paint(image_name);
 
 RoadRadar::RoadRadar(const char* ip, const char* port)
@@ -210,31 +210,26 @@ void RoadRadar::AccidentGuessAlgorithm()
 }
 
 void RoadRadar::RadarDataInfo()
-{		
+{
+	CWinApp *p = AfxGetApp();
+	CWnd *m_pWnd = p->GetMainWnd();
+	CESR_RadarDlg* pMainWnd = (CESR_RadarDlg*)m_pWnd;
+
 	radar_Paint.InitCanvas();
-	//radar_Paint.InitDialogData();
 	
 	getInfo();
-	//radar_Paint.InitCrd();
 
 	AccidentGuessAlgorithm();
+	
+	pMainWnd->m_list.DeleteAllItems();
 
 	for(vector<SMS_OBJ_DATA>::iterator iter = objectData.begin();iter !=objectData.end();++iter)
 	{		
 		radar_Paint.DrawObjectInfo(*iter);
 	}
-
-	radar_Paint.DisplayImage(radar_Paint.m_pImage2, IDC_RADAR_PICTURE);
 	radar_Paint.ListControlerCrd();
-	//radar_Paint.DisplayCrd();
-	//radar_Paint.DisplayDialogData();
+	radar_Paint.DisplayImage(radar_Paint.m_pImage2, IDC_RADAR_PICTURE);
+	
 
 	objectData.clear();
 }
-
-/*
-	for(int i = 0; i<objectData.size();i++)
-	{
-		m_pImage = radar_Paint.DrawObjectInfo(objectData[i]);
-	}
-*/
