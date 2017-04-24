@@ -40,7 +40,7 @@ void CDraw_Controller::DrawObjectInfo(SMS_OBJ_DATA PSmsObjData)
 	m_dlg_data.m_cstring_Length.Format(_T("%3.2f"), PSmsObjData.dbObjectLength);
 	
 	vector_data.push_back(m_dlg_data);
-	DrawRectangle(PSmsObjData.dbXCoordinate, PSmsObjData.dbYCoordinate, PSmsObjData.dbObjectLength);
+	DrawRectangle(m_dlg_data.m_cstring_ID, PSmsObjData.dbXCoordinate, PSmsObjData.dbYCoordinate, PSmsObjData.dbObjectLength);
 }
 
 void CDraw_Controller::ListControlerCrd()
@@ -117,7 +117,7 @@ void CDraw_Controller::InitSetting()
 	car_half_height *= pixel_per_meter_height;
 }
 
-void CDraw_Controller::DrawRectangle(double x, double y, double length )
+void CDraw_Controller::DrawRectangle(CString id, double x, double y, double length )
 {
 	//레이더의 로우데이터를 활용하여 차량의 위치를 그리는 함수이다.
 	// x, y, z, length, id가 로우데이터에 해당한다.
@@ -127,12 +127,20 @@ void CDraw_Controller::DrawRectangle(double x, double y, double length )
 	
 	//current_pixel_per_height = fabs(real_min_height - y) * pixel_per_meter_height; //레이더가 현재 자동차 정면을 볼때 y축 위치의 픽셀
 
+	x = (int) x * pixel_per_meter_width;
+	y = (int) current_pixel_per_height;
 	length *= pixel_per_meter_width;
 
-	CvPoint P1 = cvPoint((x*pixel_per_meter_width), current_pixel_per_height-car_half_height);
-	CvPoint P2 = cvPoint((x*pixel_per_meter_width+length), current_pixel_per_height+car_half_height);
+	CvPoint P1 = cvPoint( x, y-car_half_height);
+	CvPoint P2 = cvPoint((x+length), y+car_half_height);
 	cvRectangle(m_pImage2, P1, P2, CV_RGB(255,0,0),CV_FILLED, CV_AA, 0 );
 
+	char* pid;
+	CvFont cv_font;
+	USES_CONVERSION;
+	pid = T2A(id);
+	cvInitFont(&cv_font, CV_FONT_HERSHEY_COMPLEX_SMALL,1,1,0,1,CV_AA);
+	cvPutText(m_pImage2, pid, cvPoint(x,y),&cv_font,cvScalar(255,255,255));
 	/*
 	int y_pix = 20;
 	int point_x = x*2; // 이미지 크기가 600이므로 300m를 표현하기 위해 2를 곱해줌.

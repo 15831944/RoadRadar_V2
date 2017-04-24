@@ -125,6 +125,7 @@ void RoadRadar::getInfo()
 				ucReceived[2] = tcpBuffer[i-2];
 				ucReceived[3] = tcpBuffer[i-3];
 
+				//해당 패킷이 들어오면 레이더 데이터 검출시작
 				if (ucReceived[0] == 0xCD && ucReceived[1] == 0xCC && ucReceived[2] == 0xCB && ucReceived[3] == 0xCA)
 				{
 					lpSensorData[0] = ucReceived[3];
@@ -147,7 +148,6 @@ void RoadRadar::getInfo()
 							nLocalIndex++;
 							SensorMessage.ucIdent2 = lpSensorData[nLocalIndex];
 							nLocalIndex++;
-
 							SensorMessage.ucLength = lpSensorData[nLocalIndex];
 							nLocalIndex++;
 

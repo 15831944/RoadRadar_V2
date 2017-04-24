@@ -39,7 +39,7 @@ public:
 
 	void InitCanvas();		
 	void ListControlerCrd();
-	void DrawRectangle(double, double, double);
+	void DrawRectangle(CString, double, double, double);
 	void InitSetting();
 	void DrawObjectInfo(SMS_OBJ_DATA);
 	void DisplayDialogData();	
