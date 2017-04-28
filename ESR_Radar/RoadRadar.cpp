@@ -236,7 +236,9 @@ void RoadRadar::RadarDataInfo()
 	radar_Paint.DisplayImage(radar_Paint.m_pImage2, IDC_RADAR_PICTURE);
 
 	if(objectData.size() > 0)
-		copy_objectData = objectData; //사고용 다이얼로그에 사용할 데이터 임시저장
+	{
+		copy_objectData = objectData; //사고용 다이얼로그에 사용할 데이터 임시저장		
+	}
 	
 	objectData.clear();
 }

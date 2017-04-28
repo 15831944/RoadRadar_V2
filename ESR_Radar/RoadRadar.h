@@ -26,6 +26,7 @@ public:
 	/* Radar variable*/
 	vector<SMS_OBJ_DATA> objectData;
 	vector<SMS_OBJ_DATA> copy_objectData;
+	IplImage copy_m_pImage2;
 
 private:
 	SOCKET _socket;

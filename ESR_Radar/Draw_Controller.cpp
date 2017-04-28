@@ -233,7 +233,6 @@ void CDraw_Controller::FillBitmapInfo(BITMAPINFO* bmi,int width, int height, int
 	 }
 }
 
-
 /*
 void CDraw_Controller::DisplayCrd()
 {

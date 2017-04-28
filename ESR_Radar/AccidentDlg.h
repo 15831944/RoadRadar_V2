@@ -1,5 +1,8 @@
 #pragma once
 #include "afxcmn.h"
+#include "opencv\cv.h" //환경변수에 C:\opencv2412\build\x86\vc11\bin 추가.(C드라이브에 opencv라이브러리 추가)
+#include "opencv\highgui.h"
+#include "afxwin.h"
 
 
 // AccidentDlg 대화 상자입니다.
@@ -21,4 +24,10 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	CListCtrl m_editListCtrl;
+	//IplImage* copy_m_pImage2;
+
+	void DisplayImage(IplImage*);
+	void AccidentDlg::DisplayImage2(IplImage *srcimg, int item);
+	void AccidentDlg::FillBitmapInfo(BITMAPINFO* bmi,int width, int height, int bpp,int origin);
+	CStatic m_stDisplay;
 };

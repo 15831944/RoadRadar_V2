@@ -73,4 +73,5 @@ public:
 	
 	afx_msg void OnBnClickedSetting();
 	afx_msg void OnBnClickedAccidentButton();
+	void FillBitmapInfo(BITMAPINFO* bmi,int width, int height, int bpp,int origin);
 };
