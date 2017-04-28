@@ -9,6 +9,7 @@
 //#include "GridCtrl\GridCtrl.h"
 #include "CamDlg.h"
 #include "RMDDlg.h"
+#include "AccidentDlg.h"
 #include "Setting.h"
 #include <string>
 #include "afxcmn.h"
@@ -23,7 +24,8 @@ public:
 	CCamDlg *m_pCamDlg;
 	Setting *m_pSettingDlg;
 	RMDDlg *m_pRmdDlg;
-
+	AccidentDlg *m_pAccdentDlg;
+	
 // 대화 상자 데이터입니다.
 	enum { IDD = IDD_ESR_RADAR_DIALOG };
 
@@ -32,6 +34,7 @@ public:
 
 // 구현입니다.
 protected:
+	
 	HICON m_hIcon;
 	char* ip;
 	char* port;
@@ -43,7 +46,6 @@ protected:
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
 public:
-	
 	SOCKET hSocket;
 	//CGridCtrl m_grdAdd;
 	CListCtrl m_list;
@@ -70,4 +72,5 @@ public:
 	afx_msg UINT RadarLoop();
 	
 	afx_msg void OnBnClickedSetting();
+	afx_msg void OnBnClickedAccidentButton();
 };

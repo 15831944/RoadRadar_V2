@@ -16,17 +16,20 @@ using namespace std;
 class RoadRadar : public Sensor
 {
 public:
+	RoadRadar();
 	RoadRadar(const char* ip, const char* port);
 	~RoadRadar(void);
 		
 	void RadarDataInfo();
 
+public:
+	/* Radar variable*/
+	vector<SMS_OBJ_DATA> objectData;
+	vector<SMS_OBJ_DATA> copy_objectData;
+
 private:
 	SOCKET _socket;
 	
-	/* Radar variable*/
-	vector<SMS_OBJ_DATA> objectData;
-
 	/* Draw variable*/
 	IplImage* m_pImage;
 	DLG_DATA DlgData[64];

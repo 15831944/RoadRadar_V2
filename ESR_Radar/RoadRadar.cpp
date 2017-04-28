@@ -6,6 +6,11 @@
 char* image_name = "Road_300meter.png";
 CDraw_Controller radar_Paint(image_name);
 
+RoadRadar::RoadRadar()
+{
+
+}
+
 RoadRadar::RoadRadar(const char* ip, const char* port)
 {
 	_socket = communication(ip, port);
@@ -229,7 +234,9 @@ void RoadRadar::RadarDataInfo()
 	}
 	radar_Paint.ListControlerCrd();
 	radar_Paint.DisplayImage(radar_Paint.m_pImage2, IDC_RADAR_PICTURE);
-	
 
+	if(objectData.size() > 0)
+		copy_objectData = objectData; //사고용 다이얼로그에 사용할 데이터 임시저장
+	
 	objectData.clear();
 }

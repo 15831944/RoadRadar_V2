@@ -41,6 +41,7 @@ void CDraw_Controller::DrawObjectInfo(SMS_OBJ_DATA PSmsObjData)
 	
 	vector_data.push_back(m_dlg_data);
 	DrawRectangle(m_dlg_data.m_cstring_ID, PSmsObjData.dbXCoordinate, PSmsObjData.dbYCoordinate, PSmsObjData.dbObjectLength);
+
 }
 
 void CDraw_Controller::ListControlerCrd()

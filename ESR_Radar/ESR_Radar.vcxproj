@@ -102,6 +102,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AccidentDlg.h" />
     <ClInclude Include="CamDlg.h" />
     <ClInclude Include="CvvImage.h" />
     <ClInclude Include="DataStruct.h" />
@@ -126,6 +127,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AccidentDlg.cpp" />
     <ClCompile Include="CamDlg.cpp" />
     <ClCompile Include="CvvImage.cpp" />
     <ClCompile Include="Draw_Controller.cpp" />

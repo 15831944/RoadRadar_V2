@@ -13,6 +13,8 @@
 
 // 응용 프로그램 정보에 사용되는 CAboutDlg 대화 상자입니다.
 
+RoadRadar *copy_road_Radar = new RoadRadar();
+
 class CAboutDlg : public CDialogEx
 {
 public:
@@ -64,6 +66,7 @@ BEGIN_MESSAGE_MAP(CESR_RadarDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_CAM_BUTTON, &CESR_RadarDlg::OnBnClickedCamButton)
 	ON_BN_CLICKED(IDC_RMD_BUTTON, &CESR_RadarDlg::OnBnClickedRmdButton)
 	ON_BN_CLICKED(IDC_Setting, &CESR_RadarDlg::OnBnClickedSetting)
+	ON_BN_CLICKED(IDC_ACCIDENT_BUTTON, &CESR_RadarDlg::OnBnClickedAccidentButton)
 END_MESSAGE_MAP()
 
 
@@ -99,6 +102,8 @@ BOOL CESR_RadarDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 작은 아이콘을 설정합니다.
 
 	// TODO: 여기에 추가 초기화 작업을 추가합니다.
+	GetDlgItem(IDC_ACCIDENT_BUTTON)->EnableWindow(false);
+
 	ip = "192.168.127.254";
 	port = "4001";
 
@@ -174,6 +179,8 @@ UINT CESR_RadarDlg::RadarThread(LPVOID arg)
 UINT CESR_RadarDlg::RadarLoop()
 {
 	RoadRadar road_Radar("192.168.127.254", "4001");
+	
+	copy_road_Radar = &road_Radar;
 
 	while(1)
 	{	
@@ -184,6 +191,7 @@ UINT CESR_RadarDlg::RadarLoop()
 
 void CESR_RadarDlg::OnBnClickedStartButton()
 {
+	GetDlgItem(IDC_ACCIDENT_BUTTON)->EnableWindow(true);
 
 	//hSocket = radar_tcp.Radar_Connect(ip, port);
 	HANDLE hMutex;
@@ -199,6 +207,7 @@ void CESR_RadarDlg::OnBnClickedStartButton()
 void CESR_RadarDlg::OnBnClickedCloseButton()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	delete copy_road_Radar;
 	CDialogEx::OnCancel();
 }
 
@@ -257,4 +266,57 @@ void CESR_RadarDlg::OnBnClickedSetting()
 	m_pSettingDlg = new Setting();
 	m_pSettingDlg->Create(IDD_SETTING_DIALOG, this);
 	m_pSettingDlg->ShowWindow(SW_SHOW);
+}
+
+void CESR_RadarDlg::OnBnClickedAccidentButton()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	DLG_DATA m_dlg_data;
+	vector<SMS_OBJ_DATA> objectData;
+
+	objectData = copy_road_Radar->copy_objectData;
+
+	char* image_name = "Road_300meter.png";
+	CDraw_Controller radar_Paint(image_name);
+
+	radar_Paint.InitCanvas();
+
+	enum col_type {id, x, length};
+
+	m_pAccdentDlg = new AccidentDlg();
+	m_pAccdentDlg->Create(IDD_ACCIDENT_DIALOG);
+	m_pAccdentDlg->ShowWindow(SW_SHOW);
+	m_pAccdentDlg->m_editListCtrl.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES | LVS_EX_CHECKBOXES);
+	m_pAccdentDlg->m_editListCtrl.InsertColumn(0, _T("아이디"), LVCFMT_LEFT, 100, -1); 
+	m_pAccdentDlg->m_editListCtrl.InsertColumn(1, _T("거리(m)"), LVCFMT_LEFT, 100, -1); 
+	m_pAccdentDlg->m_editListCtrl.InsertColumn(2, _T("크기(m)"), LVCFMT_LEFT, 100, -1); 
+
+	m_pAccdentDlg->m_editListCtrl.DeleteAllItems();
+
+	for(vector<SMS_OBJ_DATA>::iterator iter = objectData.begin();iter !=objectData.end();++iter)
+	{		
+		radar_Paint.DrawObjectInfo(*iter);
+	}
+
+	for (int row = 0; row < radar_Paint.vector_data.size(); row++) { //행 수 
+		m_dlg_data = radar_Paint.vector_data[row];
+		for (int col = 0; col < 3; col++) { //열 수 
+			switch (col)
+			{
+			case id:
+				m_pAccdentDlg->m_editListCtrl.InsertItem(row, m_dlg_data.m_cstring_ID);
+				break;
+			case x:
+				m_pAccdentDlg->m_editListCtrl.SetItem(row,col, LVIF_TEXT, m_dlg_data.m_cstring_X,0,0,0,NULL);  					
+				break;
+			case length:
+				m_pAccdentDlg->m_editListCtrl.SetItem(row,col, LVIF_TEXT, m_dlg_data.m_cstring_Length,0,0,0,NULL); 							
+				break;
+			default:
+				break;
+			}
+		}
+	}
+
+	//radar_Paint.DisplayImage(radar_Paint.m_pImage2, IDC_ACCIDENT_PICTURE);
 }
