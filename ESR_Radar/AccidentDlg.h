@@ -23,11 +23,19 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
+	int row_num;
 	CListCtrl m_editListCtrl;
+	int iSavedItem, iSavedSubitem;
 	//IplImage* copy_m_pImage2;
 
 	void DisplayImage(IplImage*);
 	void AccidentDlg::DisplayImage2(IplImage *srcimg, int item);
 	void AccidentDlg::FillBitmapInfo(BITMAPINFO* bmi,int width, int height, int bpp,int origin);
 	CStatic m_stDisplay;
+	afx_msg void OnNMDblclkList1(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnNMClickList1(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnLvnKeydownList1(NMHDR *pNMHDR, LRESULT *pResult);
+	virtual BOOL PreTranslateMessage(MSG* pMsg);
+	afx_msg void OnBnClickedButton1();
+	afx_msg void OnBnClickedButton2();
 };

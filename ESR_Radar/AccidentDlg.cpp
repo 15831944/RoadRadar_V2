@@ -30,6 +30,11 @@ void AccidentDlg::DoDataExchange(CDataExchange* pDX)
 
 
 BEGIN_MESSAGE_MAP(AccidentDlg, CDialogEx)
+	ON_NOTIFY(NM_DBLCLK, IDC_LIST1, &AccidentDlg::OnNMDblclkList1)
+	ON_NOTIFY(NM_CLICK, IDC_LIST1, &AccidentDlg::OnNMClickList1)
+	ON_NOTIFY(LVN_KEYDOWN, IDC_LIST1, &AccidentDlg::OnLvnKeydownList1)
+	ON_BN_CLICKED(IDC_BUTTON1, &AccidentDlg::OnBnClickedButton1)
+	ON_BN_CLICKED(IDC_BUTTON2, &AccidentDlg::OnBnClickedButton2)
 END_MESSAGE_MAP()
 
 
@@ -128,4 +133,130 @@ void AccidentDlg::FillBitmapInfo(BITMAPINFO* bmi,int width, int height, int bpp,
 		   palette[i].rgbReserved = 0;
 	  }
 	 }
+}
+
+
+void AccidentDlg::OnNMDblclkList1(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	iSavedItem = pNMItemActivate->iItem;
+	iSavedSubitem = pNMItemActivate->iSubItem;
+	if(pNMItemActivate->iItem != -1)
+	{
+		CRect rect;
+		if(pNMItemActivate->iSubItem == 0)
+		{
+			m_editListCtrl.GetItemRect(pNMItemActivate->iItem, rect, LVIR_BOUNDS);
+			rect.right = rect.left + m_editListCtrl.GetColumnWidth(0);
+		}
+		else
+		{
+			m_editListCtrl.GetSubItemRect(pNMItemActivate->iItem, pNMItemActivate->iSubItem, LVIR_BOUNDS, rect);
+		}
+		m_editListCtrl.ClientToScreen(rect);
+		this->ScreenToClient(rect);
+		GetDlgItem(IDC_EDIT_MOD)->SetWindowText(m_editListCtrl.GetItemText(pNMItemActivate->iItem, pNMItemActivate->iSubItem));
+		GetDlgItem(IDC_EDIT_MOD)->SetWindowPos(NULL, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, SWP_SHOWWINDOW );
+		GetDlgItem(IDC_EDIT_MOD)->SetFocus();
+	}
+	*pResult = 0;
+}
+
+
+void AccidentDlg::OnNMClickList1(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
+
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	iSavedItem = iSavedSubitem = -1;
+	GetDlgItem(IDC_EDIT_MOD)->SetWindowPos(NULL, 0, 0, 0, 0, SWP_HIDEWINDOW );
+	if(pNMItemActivate->iItem != -1)
+	{
+		iSavedItem = pNMItemActivate->iItem;
+		iSavedSubitem = pNMItemActivate->iSubItem;
+	}
+	*pResult = 0;
+}
+
+
+void AccidentDlg::OnLvnKeydownList1(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	LPNMLVKEYDOWN pLVKeyDow = reinterpret_cast<LPNMLVKEYDOWN>(pNMHDR);
+
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	if(pLVKeyDow->wVKey == VK_F2)
+	{
+		if( iSavedItem != -1 )
+		{
+			CRect rect;
+			if(iSavedSubitem == 0)
+			{
+				m_editListCtrl.GetItemRect(iSavedItem, rect, LVIR_BOUNDS);
+				rect.right = rect.left + m_editListCtrl.GetColumnWidth(0);
+			}
+			else
+			{
+				m_editListCtrl.GetSubItemRect(iSavedItem, iSavedSubitem, LVIR_BOUNDS, rect);
+			}
+			m_editListCtrl.ClientToScreen(rect);
+			this->ScreenToClient(rect);
+			GetDlgItem(IDC_EDIT_MOD)->SetWindowText(m_editListCtrl.GetItemText(iSavedItem, iSavedSubitem));
+			GetDlgItem(IDC_EDIT_MOD)->SetWindowPos(NULL, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, SWP_SHOWWINDOW );
+			GetDlgItem(IDC_EDIT_MOD)->SetFocus();
+		}
+	}
+	*pResult = 0;
+}
+
+
+BOOL AccidentDlg::PreTranslateMessage(MSG* pMsg)
+{
+	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
+	if(pMsg->message == WM_KEYDOWN){
+		if(pMsg->wParam == VK_RETURN){
+			if(pMsg->hwnd == GetDlgItem(IDC_EDIT_MOD)->GetSafeHwnd())
+			{
+				CString str;
+				GetDlgItemText(IDC_EDIT_MOD, str);
+				m_editListCtrl.SetItemText(iSavedItem, iSavedSubitem, str);
+
+				GetDlgItem(IDC_EDIT_MOD)->SetWindowPos(NULL, 0, 0, 0, 0, SWP_HIDEWINDOW );
+			}
+			return TRUE;
+		}
+		if(pMsg->wParam == VK_ESCAPE)
+		{
+			return TRUE;
+		}
+	}
+
+	return CDialogEx::PreTranslateMessage(pMsg);
+}
+
+
+void AccidentDlg::OnBnClickedButton1()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	row_num++;
+	m_editListCtrl.InsertItem(row_num, _T("입력요망"));
+	m_editListCtrl.SetItem(row_num, 1, LVIF_TEXT, _T("입력요망"), 0, NULL, NULL, NULL);
+	m_editListCtrl.SetItem(row_num, 2, LVIF_TEXT, _T("입력요망"), 0, NULL, NULL, NULL);	
+}
+
+
+void AccidentDlg::OnBnClickedButton2()
+{
+	UINT unState;
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	for(int i = 0; i<=row_num;i++)
+	{
+		unState = m_editListCtrl.GetItemState(i, LVIS_STATEIMAGEMASK);
+		
+		if(unState == 8192) //체크
+		{
+			m_editListCtrl.DeleteItem(i);
+			row_num--;
+		}
+	}
 }

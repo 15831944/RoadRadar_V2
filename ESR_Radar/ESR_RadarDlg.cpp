@@ -200,6 +200,8 @@ void CESR_RadarDlg::OnBnClickedStartButton()
 	CWinThread *p1 = AfxBeginThread(RadarThread, &hMutex);
 	if(p1 == NULL)
 		AfxMessageBox(L"thread error");
+	else
+		GetDlgItem(IDC_START_BUTTON)->EnableWindow(false);
 
 	//CloseHandle(p1);
 }
@@ -285,6 +287,7 @@ void CESR_RadarDlg::OnBnClickedAccidentButton()
 	m_pAccdentDlg = new AccidentDlg();
 	m_pAccdentDlg->Create(IDD_ACCIDENT_DIALOG);
 	m_pAccdentDlg->ShowWindow(SW_SHOW);
+	m_pAccdentDlg->row_num = 0;
 	m_pAccdentDlg->m_editListCtrl.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES | LVS_EX_CHECKBOXES);
 	m_pAccdentDlg->m_editListCtrl.InsertColumn(0, _T("아이디"), LVCFMT_LEFT, 100, -1); 
 	m_pAccdentDlg->m_editListCtrl.InsertColumn(1, _T("거리(m)"), LVCFMT_LEFT, 100, -1); 
@@ -309,12 +312,13 @@ void CESR_RadarDlg::OnBnClickedAccidentButton()
 				m_pAccdentDlg->m_editListCtrl.SetItem(row,col, LVIF_TEXT, m_dlg_data.m_cstring_X,0,0,0,NULL);  					
 				break;
 			case length:
-				m_pAccdentDlg->m_editListCtrl.SetItem(row,col, LVIF_TEXT, m_dlg_data.m_cstring_Length,0,0,0,NULL); 							
+				m_pAccdentDlg->m_editListCtrl.SetItem(row,col, LVIF_TEXT, m_dlg_data.m_cstring_Length,0,0,0,NULL); 					
 				break;
 			default:
 				break;
 			}
 		}
+		m_pAccdentDlg->row_num++;
 	}
 
 	CWnd *pWnd = m_pAccdentDlg->GetDlgItem(IDC_ACCIDENT_PICTURE);
