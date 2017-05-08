@@ -55,6 +55,7 @@ void CESR_RadarDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_LIST1, m_list);
+	DDX_Control(pDX, IDC_RADAR_PICTURE, m_pic);
 }
 
 BEGIN_MESSAGE_MAP(CESR_RadarDlg, CDialogEx)
@@ -189,6 +190,100 @@ UINT CESR_RadarDlg::RadarLoop()
 	}
 }
 
+UINT CESR_RadarDlg::RecordThread(LPVOID arg)
+{
+	HANDLE hMutex = (*(HANDLE*)arg);
+	
+	return ((CESR_RadarDlg*)arg)->RecordLoop();
+}
+
+UINT CESR_RadarDlg::RecordLoop()
+{
+	int nClipWidth ;
+	int	nClipHeight;
+	char save_path[MAX_PATH];
+	double FPS=20.0; 
+	int fourcc = CV_FOURCC('X','V','I','D');
+	bool isColor = true;
+
+	cv::VideoWriter *videoWrite = new cv::VideoWriter;
+	
+	ImageSave();
+	
+	nClipWidth = rc.right - rc.left;
+	nClipHeight = rc.bottom - rc.top;
+	SYSTEMTIME st;
+	
+	GetLocalTime(&st);
+
+	sprintf_s(save_path, MAX_PATH, "../SaveFile/SaveVideo/%d.%d_%d.%d.%d__VIDEO_ .avi", st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);	
+
+	if(!videoWrite->open("result.avi", fourcc, FPS, cv::Size(nClipWidth, nClipHeight), isColor))
+	{
+		delete videoWrite;			
+		return 0;
+	}
+	
+	cv::Mat vi;
+	
+	while(1)
+	{
+		ImageSave();
+		vi=cv::imread("image.bmp",1);
+		*videoWrite << vi;
+		if (cv::waitKey(1) == 27 ) break;
+		Sleep(100);
+	}
+	
+	delete videoWrite;	
+	return 0;
+}
+
+void CESR_RadarDlg::ImageSave(void)
+{
+	CDC *pDC1 = m_pic.GetDC();
+	HDC hDC = pDC1->m_hDC;
+
+	m_pic.GetClientRect(&rc);
+
+	HDC hMemDc = CreateCompatibleDC(hDC);
+	HBITMAP hBitmap = CreateCompatibleBitmap(hDC, rc.right, rc.bottom);
+	HBITMAP HBmpOld = (HBITMAP)SelectObject(hMemDc, hBitmap);
+	BitBlt(hMemDc, 0, 0, rc.right, rc.bottom, hDC, 0, 0, SRCCOPY);
+	SelectObject(hMemDc, HBmpOld);
+
+	BITMAPINFOHEADER bmih;
+	ZeroMemory(&bmih, sizeof(BITMAPINFOHEADER));
+	bmih.biSize = sizeof(BITMAPINFOHEADER);
+	bmih.biWidth = rc.right;
+	bmih.biHeight = rc.bottom;
+	bmih.biPlanes = 1;
+	bmih.biBitCount = 24;
+	bmih.biCompression = BI_RGB;
+
+	GetDIBits(hDC, hBitmap, 0, rc.bottom, NULL, (LPBITMAPINFO)&bmih, DIB_RGB_COLORS);
+	LPBYTE lpBits = new BYTE[bmih.biSizeImage];
+	GetDIBits(hDC, hBitmap, 0, rc.bottom, lpBits, (LPBITMAPINFO)&bmih, DIB_RGB_COLORS);
+	ReleaseDC(pDC1);
+	DeleteObject(hBitmap);
+
+	BITMAPFILEHEADER bmfh;
+	bmfh.bfType = 'MB';
+	bmfh.bfSize = sizeof(BITMAPFILEHEADER) + sizeof(BITMAPFILEHEADER) + bmih.biSizeImage;
+	bmfh.bfReserved1 = 0;
+	bmfh.bfReserved2 = 0;
+
+	bmfh.bfOffBits = sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER);
+
+	DWORD dwWritten;
+	HANDLE hFile = CreateFile(_T("image.bmp"), GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+	WriteFile(hFile, &bmfh, sizeof(BITMAPFILEHEADER), &dwWritten, NULL);
+	WriteFile(hFile, &bmih, sizeof(BITMAPINFOHEADER), &dwWritten, NULL);
+	WriteFile(hFile, lpBits, bmih.biSizeImage, &dwWritten, NULL);
+	CloseHandle(hFile);
+	delete [] lpBits;
+}
+
 void CESR_RadarDlg::OnBnClickedStartButton()
 {
 	GetDlgItem(IDC_ACCIDENT_BUTTON)->EnableWindow(true);
@@ -201,7 +296,10 @@ void CESR_RadarDlg::OnBnClickedStartButton()
 	if(p1 == NULL)
 		AfxMessageBox(L"thread error");
 	else
+	{
 		GetDlgItem(IDC_START_BUTTON)->EnableWindow(false);
+		CWinThread *p2 = AfxBeginThread(RecordThread, this);
+	}
 
 	//CloseHandle(p1);
 }

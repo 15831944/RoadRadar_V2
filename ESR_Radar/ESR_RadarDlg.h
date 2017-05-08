@@ -13,6 +13,7 @@
 #include "Setting.h"
 #include <string>
 #include "afxcmn.h"
+#include "afxwin.h"
 
 // CESR_RadarDlg 대화 상자
 class CESR_RadarDlg : public CDialogEx
@@ -56,6 +57,7 @@ public:
 	int real_max_width;
 	int road_width;
 	int road_count;
+	RECT rc;
 
 	afx_msg void OnBnClickedStartButton();
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
@@ -70,8 +72,12 @@ public:
 	afx_msg void OnBnClickedCamButton();
 	afx_msg void OnBnClickedRmdButton();
 	afx_msg UINT RadarLoop();
+	static UINT RecordThread(LPVOID);
+	afx_msg UINT RecordLoop();
+	void ImageSave(void);
 	
 	afx_msg void OnBnClickedSetting();
 	afx_msg void OnBnClickedAccidentButton();
 	void FillBitmapInfo(BITMAPINFO* bmi,int width, int height, int bpp,int origin);
+	CStatic m_pic;
 };
