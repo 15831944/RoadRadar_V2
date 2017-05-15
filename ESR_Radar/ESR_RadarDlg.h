@@ -58,6 +58,7 @@ public:
 	int road_width;
 	int road_count;
 	RECT rc;
+	cv::VideoWriter *videoWrite;
 
 	afx_msg void OnBnClickedStartButton();
 	afx_msg void OnTimer(UINT_PTR nIDEvent);

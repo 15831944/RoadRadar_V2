@@ -249,7 +249,7 @@ void AccidentDlg::OnBnClickedButton2()
 {
 	UINT unState;
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	for(int i = 0; i<=row_num;i++)
+	for(int i = 0; i<=row_num;)
 	{
 		unState = m_editListCtrl.GetItemState(i, LVIS_STATEIMAGEMASK);
 		
@@ -257,6 +257,11 @@ void AccidentDlg::OnBnClickedButton2()
 		{
 			m_editListCtrl.DeleteItem(i);
 			row_num--;
+			i=0;
+		}
+		else
+		{
+			i++;
 		}
 	}
 }

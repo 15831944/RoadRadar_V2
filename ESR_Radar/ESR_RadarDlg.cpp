@@ -206,7 +206,7 @@ UINT CESR_RadarDlg::RecordLoop()
 	int fourcc = CV_FOURCC('X','V','I','D');
 	bool isColor = true;
 
-	cv::VideoWriter *videoWrite = new cv::VideoWriter;
+	videoWrite = new cv::VideoWriter;
 	
 	ImageSave();
 	
@@ -218,7 +218,7 @@ UINT CESR_RadarDlg::RecordLoop()
 
 	sprintf_s(save_path, MAX_PATH, "../SaveFile/SaveVideo/%d.%d_%d.%d.%d__VIDEO_ .avi", st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);	
 
-	if(!videoWrite->open("result.avi", fourcc, FPS, cv::Size(nClipWidth, nClipHeight), isColor))
+	if(!videoWrite->open(save_path, fourcc, FPS, cv::Size(nClipWidth, nClipHeight), isColor))
 	{
 		delete videoWrite;			
 		return 0;
@@ -232,7 +232,7 @@ UINT CESR_RadarDlg::RecordLoop()
 		vi=cv::imread("image.bmp",1);
 		*videoWrite << vi;
 		if (cv::waitKey(1) == 27 ) break;
-		Sleep(100);
+		Sleep(50);
 	}
 	
 	delete videoWrite;	
@@ -307,6 +307,10 @@ void CESR_RadarDlg::OnBnClickedStartButton()
 void CESR_RadarDlg::OnBnClickedCloseButton()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	
+	if(!videoWrite)	
+		videoWrite->release();
+	
 	CDialogEx::OnCancel();
 }
 
